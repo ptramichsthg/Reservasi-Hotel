@@ -42,10 +42,10 @@ class AdminPaymentController extends Controller
             'status_reservasi'  => 'confirmed',
         ]);
 
-        // KIRIM NOTIFIKASI
+        // Kirim notifikasi
         NotifikasiController::send(
             $reservasi->id_user,
-            '✅ Pembayaran Terverifikasi',
+            'Pembayaran Terverifikasi',
             'Pembayaran Anda untuk reservasi #' . $payment->reservasi_id . ' telah diverifikasi oleh admin.'
         );
 
@@ -73,10 +73,10 @@ class AdminPaymentController extends Controller
             'status_reservasi'  => 'cancelled',
         ]);
 
-        // KIRIM NOTIFIKASI
+        // Kirim notifikasi
         NotifikasiController::send(
             $reservasi->id_user,
-            '❌ Pembayaran Ditolak',
+            'Pembayaran Ditolak',
             'Pembayaran Anda untuk reservasi #' . $payment->reservasi_id . ' ditolak. Silakan upload ulang bukti pembayaran yang valid.'
         );
 

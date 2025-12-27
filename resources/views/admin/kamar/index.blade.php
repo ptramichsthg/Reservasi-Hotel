@@ -4,15 +4,21 @@
 
 <div class="p-10">
 
-    <h1 class="text-3xl font-bold text-blue-800 mb-6">
-        🏨 Kelola Kamar
+    <h1 class="text-3xl font-bold text-blue-800 mb-6 flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <span>Kelola Kamar</span>
     </h1>
 
     {{-- BUTTON TAMBAH KAMAR --}}
     <a href="{{ route('admin.kamar.create') }}"
        class="inline-block px-5 py-3 bg-blue-600 text-white rounded-xl shadow
-              hover:bg-blue-700 transition">
-        ➕ Tambah Kamar
+              hover:bg-blue-700 transition flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <span>Tambah Kamar</span>
     </a>
 
     {{-- SUCCESS MESSAGE --}}
@@ -157,8 +163,11 @@
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="return confirm('Yakin ingin menghapus kamar ini?')"
-                                        class="px-4 py-2 bg-red-600 text-white rounded-xl shadow hover:bg-red-700">
-                                    🗑 Hapus
+                                        class="px-4 py-2 bg-red-600 text-white rounded-xl shadow hover:bg-red-700 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    <span>Hapus</span>
                                 </button>
                             </form>
 

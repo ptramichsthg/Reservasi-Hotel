@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* 🌈 Animated Gradient Background */
+        /* Animated Gradient Background */
         body {
             background: linear-gradient(135deg, #3b82f6, #ffffff, #a855f7);
             background-size: 400% 400%;
@@ -23,7 +23,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* 🧊 Glassmorphism + RGB Border */
+        /* Glassmorphism + RGB Border */
         .glass {
             background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(18px);
@@ -118,7 +118,7 @@
                            bg-gradient-to-r from-blue-600 to-blue-700
                            shadow-md hover:shadow-xl hover:-translate-y-1
                            transition-all duration-200">
-                Kirim Link Reset 🔐
+                Kirim Link Reset
             </button>
         </form>
 

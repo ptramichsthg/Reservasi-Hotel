@@ -4,7 +4,7 @@
 
 <style>
     /* ===============================
-       🧊 Glassmorphism Premium
+       GLASSMORPHISM PREMIUM
     =============================== */
     .glass {
         background: rgba(255, 255, 255, 0.6);
@@ -49,7 +49,7 @@
     }
 
     /* ===============================
-       ✨ Animations
+       ANIMATIONS
     =============================== */
     .fade-up {
         opacity: 0;
@@ -75,8 +75,11 @@
 
     {{-- TITLE --}}
     <div class="mb-10 fade-up">
-        <h2 class="text-4xl font-extrabold text-blue-900 tracking-wide">
-            🛏️ Pilih Kamar
+        <h2 class="text-4xl font-extrabold text-blue-900 tracking-wide flex items-center gap-2">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <span>Pilih Kamar</span>
         </h2>
         <p class="text-gray-600 mt-2">
             Temukan kamar terbaik sesuai kebutuhan Anda
@@ -101,19 +104,21 @@
             {{-- MIN PRICE --}}
             <div>
                 <label class="font-semibold text-gray-700">Harga Minimum</label>
-                <input type="number" name="min_price"
+                <input type="text" name="min_price" id="min_price"
                        value="{{ request('min_price') }}"
-                       placeholder="Rp Min"
+                       placeholder="Contoh: 1.000.000"
                        class="w-full mt-2 p-3 rounded-xl border focus:ring-2 focus:ring-blue-500">
+                <p class="text-xs text-gray-500 mt-1">Format otomatis akan ditambahkan saat mengetik</p>
             </div>
 
             {{-- MAX PRICE --}}
             <div>
                 <label class="font-semibold text-gray-700">Harga Maksimum</label>
-                <input type="number" name="max_price"
+                <input type="text" name="max_price" id="max_price"
                        value="{{ request('max_price') }}"
-                       placeholder="Rp Max"
+                       placeholder="Contoh: 2.000.000"
                        class="w-full mt-2 p-3 rounded-xl border focus:ring-2 focus:ring-blue-500">
+                <p class="text-xs text-gray-500 mt-1">Format otomatis akan ditambahkan saat mengetik</p>
             </div>
 
             {{-- TIPE --}}
@@ -184,8 +189,38 @@
 
     {{-- LIST KAMAR --}}
     @if($kamar->isEmpty())
-        <div class="glass rgb-border p-8 text-red-600 shadow-xl max-w-xl fade-up">
-            Tidak ada kamar yang sesuai filter 😢
+        <div class="glass rgb-border p-8 shadow-xl max-w-2xl fade-up">
+            <p class="text-red-600 font-semibold text-lg mb-3">Tidak ada kamar yang sesuai filter</p>
+            
+            {{-- Info filter aktif --}}
+            @if(request()->hasAny(['keyword', 'min_price', 'max_price', 'tipe_kamar', 'fasilitas', 'sort']))
+                <div class="mt-4 p-4 bg-blue-50 rounded-xl">
+                    <p class="font-semibold text-gray-700 mb-2">Filter yang aktif:</p>
+                    <ul class="list-disc ml-5 text-sm text-gray-600 space-y-1">
+                        @if(request('keyword')) 
+                            <li>Pencarian: <strong>{{ request('keyword') }}</strong></li> 
+                        @endif
+                        @if(request('min_price')) 
+                            <li>Harga Minimum: <strong>Rp {{ number_format(request('min_price'), 0, ',', '.') }}</strong></li> 
+                        @endif
+                        @if(request('max_price')) 
+                            <li>Harga Maksimum: <strong>Rp {{ number_format(request('max_price'), 0, ',', '.') }}</strong></li> 
+                        @endif
+                        @if(request('tipe_kamar')) 
+                            <li>Tipe Kamar: <strong>{{ request('tipe_kamar') }}</strong></li> 
+                        @endif
+                        @if(request('fasilitas')) 
+                            <li>Fasilitas: <strong>{{ count(request('fasilitas')) }} dipilih</strong> ({{ implode(', ', request('fasilitas')) }})</li> 
+                        @endif
+                        @if(request('sort')) 
+                            <li>Urutan: <strong>{{ ucfirst(request('sort')) }}</strong></li> 
+                        @endif
+                    </ul>
+                    <p class="mt-3 text-sm text-gray-600">
+                        💡 <strong>Tip:</strong> Coba kurangi filter atau gunakan tombol <strong>Reset</strong> untuk melihat semua kamar.
+                    </p>
+                </div>
+            @endif
         </div>
     @else
 
@@ -213,8 +248,11 @@
                     {{ $k->tipe_kamar }}
                 </h3>
 
-                <p class="text-gray-600 mb-4">
-                    💰 Harga
+                <p class="text-gray-600 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Harga</span>
                     <span class="text-blue-600 font-extrabold">
                         Rp {{ number_format($k->harga, 0, ',', '.') }}
                     </span>
@@ -242,5 +280,37 @@
     @endif
 
 </div>
+
+<script>
+// Auto-format input harga dengan pemisah ribuan (titik)
+function formatRupiah(input) {
+    // Ambil value dan hapus semua karakter non-digit
+    let value = input.value.replace(/\D/g, '');
+    
+    // Format dengan pemisah ribuan (titik)
+    if (value) {
+        value = parseInt(value).toLocaleString('id-ID');
+    }
+    
+    // Set kembali ke input
+    input.value = value;
+}
+
+// Event listener untuk input harga minimum
+const minPriceInput = document.getElementById('min_price');
+if (minPriceInput) {
+    minPriceInput.addEventListener('input', function(e) {
+        formatRupiah(e.target);
+    });
+}
+
+// Event listener untuk input harga maksimum
+const maxPriceInput = document.getElementById('max_price');
+if (maxPriceInput) {
+    maxPriceInput.addEventListener('input', function(e) {
+        formatRupiah(e.target);
+    });
+}
+</script>
 
 @endsection

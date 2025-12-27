@@ -22,13 +22,21 @@ class KamarController extends Controller
             });
         }
 
-        // 🎚️ Filter harga
+        // 🎚️ Filter harga - dengan sanitasi input
         if ($request->min_price) {
-            $query->where('harga', '>=', $request->min_price);
+            // Hapus semua karakter non-digit dan konversi ke integer
+            $minPrice = (int) preg_replace('/[^0-9]/', '', $request->min_price);
+            if ($minPrice > 0) {
+                $query->where('harga', '>=', $minPrice);
+            }
         }
 
         if ($request->max_price) {
-            $query->where('harga', '<=', $request->max_price);
+            // Hapus semua karakter non-digit dan konversi ke integer
+            $maxPrice = (int) preg_replace('/[^0-9]/', '', $request->max_price);
+            if ($maxPrice > 0) {
+                $query->where('harga', '<=', $maxPrice);
+            }
         }
 
         // 🏷️ Filter tipe kamar

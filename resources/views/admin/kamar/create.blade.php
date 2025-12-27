@@ -4,8 +4,11 @@
 
 <div class="max-w-xl mx-auto glass p-8 rounded-3xl shadow">
 
-    <h1 class="text-3xl font-bold text-blue-800 mb-6">
-        ➕ Tambah Kamar
+    <h1 class="text-3xl font-bold text-blue-800 mb-6 flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <span>Tambah Kamar</span>
     </h1>
 
     {{-- =============================
@@ -30,7 +33,7 @@
                 class="w-full p-3 rounded-xl border mb-4"
                 required>
 
-            <optgroup label="🏨 Berdasarkan Tingkatan">
+            <optgroup label="Berdasarkan Tingkatan">
                 <option value="Standard Room" {{ old('tipe_kamar')=='Standard Room' ? 'selected' : '' }}>
                     Standard Room
                 </option>
@@ -51,7 +54,7 @@
                 </option>
             </optgroup>
 
-            <optgroup label="🛏️ Berdasarkan Ranjang">
+            <optgroup label="Berdasarkan Ranjang">
                 <option value="Single Room" {{ old('tipe_kamar')=='Single Room' ? 'selected' : '' }}>
                     Single Room
                 </option>

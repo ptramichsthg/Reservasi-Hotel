@@ -2,7 +2,12 @@
 
 @section('content')
 
-<h1 class="text-3xl font-bold mb-6">⏳ Pembayaran Pending</h1>
+<h1 class="text-3xl font-bold mb-6 flex items-center gap-2">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+    <span>Pembayaran Pending</span>
+</h1>
 
 <div class="bg-white rounded-xl shadow p-6">
 
@@ -49,15 +54,21 @@
 
                     <form action="{{ route('admin.payment.verify', $pay->id) }}" method="POST">
                         @csrf
-                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg">
-                            ✔ Konfirmasi
+                        <button class="px-4 py-2 bg-green-600 text-white rounded-lg flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Konfirmasi</span>
                         </button>
                     </form>
 
                     <form action="{{ route('admin.payment.reject', $pay->id) }}" method="POST">
                         @csrf
-                        <button class="px-4 py-2 bg-red-600 text-white rounded-lg">
-                            ✖ Tolak
+                        <button class="px-4 py-2 bg-red-600 text-white rounded-lg flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>Tolak</span>
                         </button>
                     </form>
 

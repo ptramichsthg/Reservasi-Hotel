@@ -75,7 +75,7 @@ class ReservasiController extends Controller
 
         if ($bentrok) {
             return redirect()->back()
-                ->with('error', '⚠ Tanggal tersebut sudah dipesan oleh tamu lain.');
+                ->with('error', 'Tanggal tersebut sudah dipesan oleh tamu lain. Silakan pilih tanggal lain.');
         }
 
         // ===============================
@@ -91,12 +91,10 @@ class ReservasiController extends Controller
             'status_reservasi'  => 'pending',
         ]);
 
-        // ===============================
-        // KIRIM NOTIFIKASI
-        // ===============================
+        // Kirim notifikasi
         NotifikasiController::send(
             Auth::id(),
-            '🎉 Reservasi Berhasil Dibuat',
+            'Reservasi Berhasil Dibuat',
             'Reservasi Anda untuk kamar ' . $kamar->tipe_kamar . ' berhasil dibuat. Silakan lakukan pembayaran.'
         );
 

@@ -4,8 +4,11 @@
 
 <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow">
 
-    <h2 class="text-2xl font-bold text-blue-700 mb-6">
-        🛏️ Reservasi Kamar: {{ $kamar->tipe_kamar }}
+    <h2 class="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <span>Reservasi Kamar: {{ $kamar->tipe_kamar }}</span>
     </h2>
 
     <form action="{{ route('tamu.order.store') }}" method="POST">

@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     {{-- ===============================
-       🎨 GLOBAL STYLE (WELCOME ONLY)
+       /* GLOBAL STYLE (WELCOME ONLY) */
     =============================== --}}
     <style>
         html {
@@ -60,7 +60,7 @@
 <body class="font-sans text-gray-900 flex flex-col min-h-screen">
 
 {{-- ======================================================
-   🔵 NAVBAR (PUBLIC / WELCOME ONLY)
+   /* NAVBAR (PUBLIC / WELCOME ONLY) */
 ====================================================== --}}
 <header class="fixed top-0 w-full z-50 glass rgb-border rounded-b-3xl shadow-2xl">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -98,14 +98,14 @@
 </header>
 
 {{-- ======================================================
-   🧩 PAGE CONTENT
+   /* PAGE CONTENT */
 ====================================================== --}}
 <main class="flex-grow pt-28">
     @yield('content')
 </main>
 
 {{-- ======================================================
-   🔻 OPTIONAL FOOTER SLOT
+   /* OPTIONAL FOOTER SLOT */
 ====================================================== --}}
 @hasSection('footer')
 <footer>

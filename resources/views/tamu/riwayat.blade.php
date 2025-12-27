@@ -4,7 +4,7 @@
 
 <style>
     /* ===============================
-       🧊 Glassmorphism Premium
+       GLASSMORPHISM PREMIUM
     =============================== */
     .glass {
         background: rgba(255, 255, 255, 0.6);
@@ -49,7 +49,7 @@
     }
 
     /* ===============================
-       ✨ Animations
+       ANIMATIONS
     =============================== */
     .fade-up {
         opacity: 0;
@@ -65,7 +65,7 @@
     }
 
     /* ===============================
-       🔔 Status Badge
+       STATUS BADGE
     =============================== */
     .badge {
         padding: .4rem .9rem;
@@ -93,7 +93,7 @@
     }
 
     /* ===============================
-       📊 Table Hover
+       TABLE HOVER
     =============================== */
     .table-row:hover {
         background: rgba(168,85,247,.08);
@@ -106,8 +106,11 @@
 
     {{-- TITLE --}}
     <div class="mb-10 fade-up">
-        <h1 class="text-4xl font-extrabold text-blue-900 tracking-wide">
-            📜 Riwayat Reservasi
+        <h1 class="text-4xl font-extrabold text-blue-900 tracking-wide flex items-center gap-2">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>Riwayat Reservasi</span>
         </h1>
         <p class="text-gray-600 mt-2">
             Daftar semua pemesanan kamar yang pernah Anda lakukan
@@ -124,7 +127,7 @@
     {{-- EMPTY STATE --}}
     @if($pemesanan->isEmpty())
         <div class="glass rgb-border p-8 text-red-600 shadow-xl max-w-xl fade-up">
-            Kamu belum memiliki riwayat pemesanan 😢
+            Kamu belum memiliki riwayat pemesanan
         </div>
     @else
 
@@ -153,27 +156,27 @@
 
                         {{-- CHECK-IN --}}
                         <td class="py-4 text-gray-600">
-                            📅 {{ \Carbon\Carbon::parse($psn->tgl_checkin)->format('d M Y') }}
+                            {{ \Carbon\Carbon::parse($psn->tgl_checkin)->format('d M Y') }}
                         </td>
 
                         {{-- CHECK-OUT --}}
                         <td class="py-4 text-gray-600">
-                            📅 {{ \Carbon\Carbon::parse($psn->tgl_checkout)->format('d M Y') }}
+                            {{ \Carbon\Carbon::parse($psn->tgl_checkout)->format('d M Y') }}
                         </td>
 
                         {{-- STATUS --}}
                         <td class="py-4">
                             @if($psn->status_pembayaran === 'pending')
                                 <span class="badge badge-pending">
-                                    ⏳ Pending
+                                    Pending
                                 </span>
                             @elseif($psn->status_pembayaran === 'paid')
                                 <span class="badge badge-paid">
-                                    ✔ Lunas
+                                    Lunas
                                 </span>
                             @elseif($psn->status_pembayaran === 'cancelled')
                                 <span class="badge badge-cancelled">
-                                    ✖ Dibatalkan
+                                    Dibatalkan
                                 </span>
                             @else
                                 <span class="badge bg-gray-300 text-gray-700">
@@ -196,12 +199,12 @@
 
                             @elseif($psn->status_pembayaran === 'paid')
                                 <span class="text-green-700 font-semibold">
-                                    ✔ Sudah Lunas
+                                    Sudah Lunas
                                 </span>
 
                             @elseif($psn->status_pembayaran === 'cancelled')
                                 <span class="text-red-700 font-semibold">
-                                    ✖ Dibatalkan
+                                    Dibatalkan
                                 </span>
                             @endif
 

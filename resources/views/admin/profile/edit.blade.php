@@ -4,14 +4,20 @@
 
 <div class="max-w-2xl mx-auto p-10">
 
-    <h1 class="text-3xl font-bold text-blue-800 mb-6">
-        👤 Edit Profile Admin
+    <h1 class="text-3xl font-bold text-blue-800 mb-6 flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+        <span>Edit Profile Admin</span>
     </h1>
 
     {{-- SUCCESS MESSAGE --}}
     @if(session('success'))
-        <div class="mb-4 p-4 bg-green-200 text-green-700 rounded-xl">
-            ✅ {{ session('success') }}
+        <div class="mb-4 p-4 bg-green-200 text-green-700 rounded-xl flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>{{ session('success') }}</span>
         </div>
     @endif
 
@@ -54,8 +60,11 @@
         {{-- DIVIDER --}}
         <hr class="my-6 border-gray-300">
 
-        <p class="text-sm text-gray-600 mb-4">
-            💡 <strong>Catatan:</strong> Kosongkan field password jika tidak ingin mengubah password.
+        <p class="text-sm text-gray-600 mb-4 flex items-start gap-2">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span><strong>Catatan:</strong> Kosongkan field password jika tidak ingin mengubah password.</span>
         </p>
 
         {{-- PASSWORD --}}
@@ -102,8 +111,11 @@
         <div class="flex gap-4">
             <button type="submit"
                     class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold
-                           hover:bg-blue-700 transition shadow-lg">
-                💾 Simpan Perubahan
+                           hover:bg-blue-700 transition shadow-lg flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span>Simpan Perubahan</span>
             </button>
 
             <a href="{{ route('admin.dashboard') }}"
