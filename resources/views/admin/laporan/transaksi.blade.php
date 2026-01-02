@@ -2,138 +2,182 @@
 
 @section('content')
 
-<div class="mb-8">
-    <h1 class="text-3xl font-bold text-blue-800 mb-2">💰 Laporan Transaksi</h1>
-    <p class="text-gray-600">Riwayat pembayaran & reservasi tamu.</p>
-</div>
-
-{{-- FILTER TANGGAL --}}
-<div class="glass p-6 rounded-2xl shadow mb-10">
-
-    <form method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
+<div class="p-6 md:p-8 space-y-8 animate-fade-in">
+    {{-- HEADER --}}
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <label class="font-semibold text-gray-700">Tanggal Mulai</label>
-            <input type="date" name="start_date"
-                   class="w-full p-3 rounded-xl border mt-1"
-                   value="{{ request('start_date') }}">
+            <h1 class="text-2xl md:text-3xl font-bold text-ant-text flex items-center gap-3">
+                <span class="material-symbols-outlined text-ant-primary text-[32px]">payments</span>
+                Laporan Transaksi
+            </h1>
+            <p class="text-sm text-ant-textSecondary mt-1">Riwayat pembayaran & reservasi tamu secara mendalam.</p>
         </div>
-
-        <div>
-            <label class="font-semibold text-gray-700">Tanggal Selesai</label>
-            <input type="date" name="end_date"
-                   class="w-full p-3 rounded-xl border mt-1"
-                   value="{{ request('end_date') }}">
-        </div>
-
-        <div class="flex items-end">
-            <button class="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
-                Terapkan Filter
-            </button>
-        </div>
-
-    </form>
-</div>
-
-{{-- STATISTIK --}}
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-
-    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
-        <p class="text-gray-600">Total Reservasi</p>
-        <h2 class="text-3xl font-bold text-blue-700">{{ $stat['total_reservasi'] }}</h2>
-    </div>
-
-    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
-        <p class="text-gray-600">Pending</p>
-        <h2 class="text-3xl font-bold text-orange-500">{{ $stat['pending'] }}</h2>
-    </div>
-
-    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
-        <p class="text-gray-600">Terverifikasi</p>
-        <h2 class="text-3xl font-bold text-green-600">{{ $stat['verifikasi'] }}</h2>
-    </div>
-
-    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
-        <p class="text-gray-600">Pembayaran Ditolak</p>
-        <h2 class="text-3xl font-bold text-red-600">{{ $stat['gagal'] }}</h2>
-    </div>
-
-</div>
-
-{{-- TABEL TRANSAKSI --}}
-<div class="glass p-6 rounded-3xl shadow">
-
-    <div class="flex justify-between mb-4">
-        <h2 class="text-xl font-bold text-gray-800">📄 Daftar Reservasi</h2>
-
-        <a href="{{ route('admin.laporan.export.transaksi') }}"
-           class="px-5 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">
-            ⬇ Export Laporan
+        <a href="{{ route('admin.laporan.export.transaksi') }}" class="ant-btn-primary h-11 px-6 shadow-lg shadow-ant-primary/20 transition-all hover:scale-105 active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+            Export Laporan PDF
         </a>
     </div>
 
-    <table class="w-full border-collapse text-left">
-        <thead>
-            <tr class="border-b border-gray-300 text-gray-700">
-                <th class="p-3">Nama Tamu</th>
-                <th class="p-3">Kamar</th>
-                <th class="p-3">Check-in</th>
-                <th class="p-3">Check-out</th>
-                <th class="p-3">Total Harga</th>
-                <th class="p-3">Status Pembayaran</th>
-            </tr>
-        </thead>
+    {{-- FILTER TANGGAL --}}
+    <div class="bg-white p-6 rounded-2xl border border-ant-borderSplit shadow-sm">
+        <form method="GET" class="flex flex-wrap items-end gap-6">
+            <div class="space-y-1.5 min-w-[200px]">
+                <label class="text-[11px] font-bold text-ant-textSecondary uppercase tracking-wider flex items-center gap-1.5 text-ant-textQuaternary">
+                    <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                    Tanggal Mulai
+                </label>
+                <input type="date" name="start_date" value="{{ request('start_date') }}"
+                       class="w-full bg-ant-bg/50 border border-ant-borderSplit rounded-lg px-4 py-2 text-sm focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none transition-all">
+            </div>
 
-        <tbody>
-            @foreach($reservasi as $r)
-                <tr class="border-b border-gray-200 hover:bg-gray-100/40 transition">
+            <div class="space-y-1.5 min-w-[200px]">
+                <label class="text-[11px] font-bold text-ant-textSecondary uppercase tracking-wider flex items-center gap-1.5 text-ant-textQuaternary">
+                    <span class="material-symbols-outlined text-[14px]">calendar_month</span>
+                    Tanggal Selesai
+                </label>
+                <input type="date" name="end_date" value="{{ request('end_date') }}"
+                       class="w-full bg-ant-bg/50 border border-ant-borderSplit rounded-lg px-4 py-2 text-sm focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none transition-all">
+            </div>
 
-                    {{-- Nama User --}}
-                    <td class="p-3 font-medium">
-                        {{ $r->user->name ?? '-' }}
-                    </td>
+            <button type="submit" class="bg-ant-primary text-white h-10 px-8 rounded-lg text-sm font-bold hover:bg-ant-primaryHover transition-all shadow-md active:scale-95">
+                Terapkan Filter
+            </button>
+            <a href="{{ route('admin.laporan.transaksi') }}" class="h-10 px-4 flex items-center text-ant-textSecondary hover:text-ant-text text-sm transition-colors font-medium">
+                Reset
+            </a>
+        </form>
+    </div>
 
-                    {{-- Tipe Kamar --}}
-                    <td class="p-3">
-                        {{ $r->kamar->tipe_kamar ?? '-' }}
-                    </td>
+    {{-- STATISTIK --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-slide-up">
+        <div class="bg-white p-6 rounded-2xl border border-ant-borderSplit shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex items-center gap-3 text-ant-textSecondary mb-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-widest">Total Reservasi</span>
+            </div>
+            <div class="text-3xl font-bold text-ant-text">{{ $stat['total_reservasi'] }}</div>
+        </div>
 
-                    {{-- Check-in --}}
-                    <td class="p-3">
-                        {{ \Carbon\Carbon::parse($r->tgl_checkin)->format('d M Y') }}
-                    </td>
+        <div class="bg-white p-6 rounded-2xl border border-ant-borderSplit shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex items-center gap-3 text-ant-textSecondary mb-3">
+                <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-widest">Pending</span>
+            </div>
+            <div class="text-3xl font-bold text-orange-600">{{ $stat['pending'] }}</div>
+        </div>
 
-                    {{-- Check-out --}}
-                    <td class="p-3">
-                        {{ \Carbon\Carbon::parse($r->tgl_checkout)->format('d M Y') }}
-                    </td>
+        <div class="bg-white p-6 rounded-2xl border border-ant-borderSplit shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex items-center gap-3 text-ant-textSecondary mb-3">
+                <div class="w-8 h-8 rounded-lg bg-green-50 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">verified</span>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-widest">Terverifikasi</span>
+            </div>
+            <div class="text-3xl font-bold text-green-600">{{ $stat['verifikasi'] }}</div>
+        </div>
 
-                    {{-- Total Harga --}}
-                    <td class="p-3 text-blue-600 font-semibold">
-                        Rp {{ number_format($r->total_harga ?? 0, 0, ',', '.') }}
-                    </td>
+        <div class="bg-white p-6 rounded-2xl border border-ant-borderSplit shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex items-center gap-3 text-ant-textSecondary mb-3">
+                <div class="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">cancel</span>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-widest">Ditolak</span>
+            </div>
+            <div class="text-3xl font-bold text-red-600">{{ $stat['gagal'] }}</div>
+        </div>
+    </div>
 
-                    {{-- Status Pembayaran --}}
-                    <td class="p-3">
-                        @php
-                            $color = match($r->status_pembayaran) {
-                                'pending'  => 'text-orange-500',
-                                'verified' => 'text-green-600',
-                                'rejected' => 'text-red-600',
-                                default    => 'text-gray-500'
-                            };
-                        @endphp
-
-                        <span class="font-bold {{ $color }}">
-                            {{ ucfirst($r->status_pembayaran) }}
-                        </span>
-                    </td>
-
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
+    {{-- TABEL TRANSAKSI --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-ant-borderSplit overflow-hidden animate-slide-up" style="animation-delay: 0.1s">
+        <div class="px-6 py-4 border-b border-ant-borderSplit bg-ant-bg/20 flex items-center justify-between">
+            <h2 class="text-base font-bold text-ant-text flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-ant-textQuaternary">list_alt</span>
+                Daftar Detail Reservasi
+            </h2>
+        </div>
+        <div class="overflow-x-auto text-sm">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-ant-bg/50 border-b border-ant-borderSplit">
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Identitas Tamu</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Kamar</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Durasi Menginap</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Total Harga</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-ant-borderSplit">
+                    @forelse($reservasi as $r)
+                        <tr class="hover:bg-ant-bg/30 transition-all duration-200 group">
+                            <td class="py-4 px-6">
+                                <p class="font-bold text-ant-text leading-none group-hover:text-ant-primary transition-colors">{{ $r->user->name ?? '-' }}</p>
+                                <p class="text-[10px] text-ant-textQuaternary mt-1">Guest ID: #{{ str_pad($r->id_user ?? 0, 4, '0', STR_PAD_LEFT) }}</p>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="font-medium text-ant-text">{{ $r->kamar->tipe_kamar ?? '-' }}</span>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex flex-col text-[12px] text-ant-textSecondary">
+                                    <span>{{ \Carbon\Carbon::parse($r->tgl_checkin)->format('d/m/Y') }}</span>
+                                    <span class="text-[10px] text-ant-textQuaternary">hingga</span>
+                                    <span>{{ \Carbon\Carbon::parse($r->tgl_checkout)->format('d/m/Y') }}</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <span class="text-base font-bold text-ant-primary">
+                                    Rp {{ number_format($r->total_harga ?? 0, 0, ',', '.') }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                @php
+                                    $statusConfig = match($r->status_pembayaran) {
+                                        'pending'  => ['bg' => 'bg-orange-100', 'text' => 'text-orange-700', 'border' => 'border-orange-200', 'label' => 'Pending'],
+                                        'confirmed' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'border' => 'border-green-200', 'label' => 'Verified'],
+                                        'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-700', 'border' => 'border-red-200', 'label' => 'Rejected'],
+                                        default    => ['bg' => 'bg-gray-100', 'text' => 'text-gray-700', 'border' => 'border-gray-200', 'label' => ucfirst($r->status_pembayaran)]
+                                    };
+                                @endphp
+                                <span class="inline-flex px-3 py-1 {{ $statusConfig['bg'] }} {{ $statusConfig['text'] }} {{ $statusConfig['border'] }} text-[10px] font-bold rounded-full border uppercase tracking-tighter">
+                                    {{ $statusConfig['label'] }}
+                                </span>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-24 text-center">
+                                <div class="w-20 h-20 bg-ant-bg rounded-full flex items-center justify-center mx-auto mb-6 border border-ant-borderSplit/50 shadow-inner">
+                                    <span class="material-symbols-outlined text-ant-textSecondary text-[48px]">money_off</span>
+                                </div>
+                                <h4 class="text-lg font-bold text-ant-text mb-2">Tidak Ada Transaksi</h4>
+                                <p class="text-ant-textSecondary text-sm">Sesuaikan filter tanggal untuk melihat data transaksi lainnya.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 0.6s ease-out forwards;
+    }
+    @keyframes slide-up {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up {
+        animation: slide-up 0.4s ease-out forwards;
+    }
+</style>
 
 @endsection

@@ -6,18 +6,19 @@ use App\Models\Kamars;
 use App\Models\Reservasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\NotifikasiController;
 
 class ReservasiController extends Controller
 {
     // =====================================================
-    // 🟢 1. HALAMAN FORM ORDER KAMAR
+    // 1. HALAMAN FORM ORDER KAMAR
     // =====================================================
     public function orderPage($id_kamar)
     {
         $kamar = Kamars::findOrFail($id_kamar);
 
-        // ❌ Tidak bisa pesan jika bukan available
+        // Tidak bisa pesan jika bukan available
         if ($kamar->status !== 'available') {
             return redirect()->back()
                 ->with('error', 'Kamar ini tidak tersedia untuk dipesan.');
@@ -28,7 +29,7 @@ class ReservasiController extends Controller
 
 
     // =====================================================
-    // 🟢 2. SIMPAN RESERVASI (FINAL & FIXED)
+    // 2. SIMPAN RESERVASI (FIXED - NO RACE CONDITION)
     // =====================================================
     public function store(Request $request)
     {
@@ -42,81 +43,93 @@ class ReservasiController extends Controller
             'jumlah_tamu'  => 'required|integer|min:1',
         ]);
 
-        $kamar = Kamars::findOrFail($request->id_kamar);
+        try {
+            // ===============================
+            // DATABASE TRANSACTION + LOCK
+            // Mencegah race condition / double booking
+            // ===============================
+            return DB::transaction(function () use ($request) {
+                
+                // Lock row kamar untuk mencegah concurrent booking
+                $kamar = Kamars::lockForUpdate()->findOrFail($request->id_kamar);
 
-        // ===============================
-        // VALIDASI KAPASITAS
-        // ===============================
-        if ($request->jumlah_tamu > $kamar->kapasitas) {
+                // ===============================
+                // VALIDASI KAPASITAS
+                // ===============================
+                if ($request->jumlah_tamu > $kamar->kapasitas) {
+                    throw new \Exception('Jumlah tamu melebihi kapasitas kamar.');
+                }
+
+                // ===============================
+                // VALIDASI STATUS KAMAR
+                // ===============================
+                if ($kamar->status !== 'available') {
+                    throw new \Exception('Kamar tidak tersedia untuk dipesan.');
+                }
+
+                // ===============================
+                // CEK BENTROK TANGGAL (WITH LOCK)
+                // ===============================
+                $bentrok = Reservasi::where('id_kamar', $request->id_kamar)
+                    ->where('status_reservasi', '!=', 'cancelled')
+                    ->lockForUpdate() // Lock untuk mencegah race condition
+                    ->where(function ($query) use ($request) {
+                        $query->where('tgl_checkin', '<', $request->tgl_checkout)
+                              ->where('tgl_checkout', '>', $request->tgl_checkin);
+                    })
+                    ->exists();
+
+                if ($bentrok) {
+                    throw new \Exception('Tanggal tersebut sudah dipesan oleh tamu lain.');
+                }
+
+                // ===============================
+                // SIMPAN RESERVASI
+                // ===============================
+                $reservasi = Reservasi::create([
+                    'id_user'           => Auth::id(),
+                    'id_kamar'          => $request->id_kamar,
+                    'tgl_checkin'       => $request->tgl_checkin,
+                    'tgl_checkout'      => $request->tgl_checkout,
+                    'jumlah_tamu'       => $request->jumlah_tamu,
+                    'status_pembayaran' => 'pending',
+                    'status_reservasi'  => 'pending',
+                ]);
+
+                // ===============================
+                // KIRIM NOTIFIKASI
+                // ===============================
+                NotifikasiController::send(
+                    Auth::id(),
+                    'Reservasi Berhasil Dibuat',
+                    'Reservasi Anda untuk kamar ' . $kamar->tipe_kamar . ' berhasil dibuat. Silakan lakukan pembayaran.'
+                );
+
+                // ===============================
+                // REDIRECT BERHASIL
+                // ===============================
+                return redirect()->route('tamu.orders.history')
+                    ->with('success', 'Reservasi berhasil dibuat! Silakan lanjutkan pembayaran.');
+            });
+
+        } catch (\Exception $e) {
+            // Handle error dari transaction
             return redirect()->back()
-                ->with('error', 'Jumlah tamu melebihi kapasitas kamar.');
+                ->with('error', $e->getMessage())
+                ->withInput();
         }
-
-        // ===============================
-        // VALIDASI STATUS KAMAR
-        // ===============================
-        if ($kamar->status !== 'available') {
-            return redirect()->back()
-                ->with('error', 'Kamar tidak tersedia untuk dipesan.');
-        }
-
-        // ===============================
-        // CEK BENTROK TANGGAL
-        // ===============================
-        // Logika: Overlap terjadi jika:
-        // (checkin_baru < checkout_lama) AND (checkout_baru > checkin_lama)
-        $bentrok = Reservasi::where('id_kamar', $request->id_kamar)
-            ->where('status_reservasi', '!=', 'cancelled')
-            ->where(function ($query) use ($request) {
-                $query->where('tgl_checkin', '<', $request->tgl_checkout)
-                      ->where('tgl_checkout', '>', $request->tgl_checkin);
-            })
-            ->exists();
-
-        if ($bentrok) {
-            return redirect()->back()
-                ->with('error', '⚠ Tanggal tersebut sudah dipesan oleh tamu lain.');
-        }
-
-        // ===============================
-        // SIMPAN RESERVASI
-        // ===============================
-        Reservasi::create([
-            'id_user'           => Auth::id(),
-            'id_kamar'          => $request->id_kamar,
-            'tgl_checkin'       => $request->tgl_checkin,
-            'tgl_checkout'      => $request->tgl_checkout,
-            'jumlah_tamu'       => $request->jumlah_tamu,
-            'status_pembayaran' => 'pending',
-            'status_reservasi'  => 'pending',
-        ]);
-
-        // ===============================
-        // KIRIM NOTIFIKASI
-        // ===============================
-        NotifikasiController::send(
-            Auth::id(),
-            '🎉 Reservasi Berhasil Dibuat',
-            'Reservasi Anda untuk kamar ' . $kamar->tipe_kamar . ' berhasil dibuat. Silakan lakukan pembayaran.'
-        );
-
-        // ===============================
-        // REDIRECT BERHASIL
-        // ===============================
-        return redirect()->route('tamu.orders.history')
-            ->with('success', 'Reservasi berhasil dibuat! Silakan lanjutkan pembayaran.');
     }
 
 
     // =====================================================
-    // 🟢 3. RIWAYAT RESERVASI TAMU
+    // 3. RIWAYAT RESERVASI TAMU (FIXED - WITH PAGINATION)
     // =====================================================
     public function riwayat()
     {
         $pemesanan = Reservasi::with('kamar')
             ->where('id_user', Auth::id())
             ->orderByDesc('created_at')
-            ->get();
+            ->paginate(20); // Add pagination untuk performance
 
         return view('tamu.riwayat', compact('pemesanan'));
     }

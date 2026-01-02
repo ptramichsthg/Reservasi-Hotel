@@ -13,7 +13,7 @@
 
     <style>
         /* ===============================
-           🌈 BACKGROUND
+           BACKGROUND
         =============================== */
         body {
             background: linear-gradient(135deg, #3b82f6, #ffffff, #a855f7);
@@ -28,7 +28,7 @@
         }
 
         /* ===============================
-           🧊 GLASS EFFECT
+           GLASS EFFECT
         =============================== */
         .glass {
             background: rgba(255, 255, 255, 0.45);
@@ -39,7 +39,7 @@
         }
 
         /* ===============================
-           📌 SIDEBAR STYLE
+           SIDEBAR STYLE
         =============================== */
         .sidebar-item {
             display: flex;
@@ -75,7 +75,7 @@
     {{-- BRAND --}}
     <div class="flex items-center gap-3 px-6 py-6 border-b border-white/10">
         <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
-            🏨
+            <span class="material-symbols-outlined text-[20px]">hotel</span>
         </div>
         <span class="text-lg font-extrabold tracking-wide">Laravel Hotel</span>
     </div>
@@ -100,7 +100,7 @@
 
             <a href="{{ route('admin.dashboard') }}"
                class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'sidebar-active' : '' }}">
-                📊 Dashboard
+                <span class="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
             </a>
 
             <p class="px-3 pt-4 text-xs text-slate-400 uppercase tracking-wider">
@@ -109,22 +109,22 @@
 
             <a href="{{ route('admin.kamar.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.kamar.*') ? 'sidebar-active' : '' }}">
-                🏨 Manajemen Kamar
+                <span class="material-symbols-outlined text-[18px]">hotel</span> Manajemen Kamar
             </a>
 
             <a href="{{ route('admin.orders.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.orders.*') ? 'sidebar-active' : '' }}">
-                📑 Data Reservasi
+                <span class="material-symbols-outlined text-[18px]">receipt_long</span> Data Reservasi
             </a>
 
             <a href="{{ route('admin.payment.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.payment.*') ? 'sidebar-active' : '' }}">
-                💳 Pembayaran
+                <span class="material-symbols-outlined text-[18px]">payments</span> Pembayaran
             </a>
 
             <a href="{{ route('admin.users.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'sidebar-active' : '' }}">
-                👤 Manajemen Pengguna
+                <span class="material-symbols-outlined text-[18px]">group</span> Manajemen Pengguna
             </a>
 
         @endif
@@ -140,7 +140,7 @@
 
             <a href="{{ route('tamu.dashboard') }}"
                class="sidebar-item {{ request()->routeIs('tamu.dashboard') ? 'sidebar-active' : '' }}">
-                🏠 Dashboard
+                <span class="material-symbols-outlined text-[18px]">home</span> Dashboard
             </a>
 
             <p class="px-3 pt-4 text-xs text-slate-400 uppercase tracking-wider">
@@ -149,12 +149,12 @@
 
             <a href="{{ route('tamu.kamar.list') }}"
                class="sidebar-item {{ request()->routeIs('tamu.kamar.list') ? 'sidebar-active' : '' }}">
-                🛏️ Cari Kamar
+                <span class="material-symbols-outlined text-[18px]">search</span> Cari Kamar
             </a>
 
             <a href="{{ route('tamu.orders.history') }}"
                class="sidebar-item {{ request()->routeIs('tamu.orders.history') ? 'sidebar-active' : '' }}">
-                📜 Riwayat Reservasi
+                <span class="material-symbols-outlined text-[18px]">history</span> Riwayat Reservasi
             </a>
 
         @endif

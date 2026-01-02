@@ -9,16 +9,16 @@
         <span class="material-symbols-outlined text-[14px]">chevron_right</span>
         <a href="{{ route('admin.users.index') }}" class="hover:text-ant-primary transition-colors">Manajemen User</a>
         <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-        <span class="text-ant-text font-medium">Tambah User</span>
+        <span class="text-ant-text font-medium">Edit User</span>
     </div>
 
     {{-- HEADER --}}
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-ant-text flex items-center gap-3">
-            <span class="material-symbols-outlined text-ant-primary text-[28px]">person_add</span>
-            Tambah User Baru
+            <span class="material-symbols-outlined text-ant-primary text-[28px]">manage_accounts</span>
+            Edit Akun Pengguna
         </h1>
-        <p class="text-sm text-ant-textSecondary mt-1">Buat akun administrator baru atau tamu member secara manual.</p>
+        <p class="text-sm text-ant-textSecondary mt-1">Perbarui informasi profil, alamat email, atau role pengguna.</p>
     </div>
 
     {{-- FORM CARD --}}
@@ -39,8 +39,9 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6">
+            <form action="{{ route('admin.users.update', $user->id_user) }}" method="POST" class="space-y-6">
                 @csrf
+                @method('PUT')
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- NAMA --}}
@@ -51,7 +52,7 @@
                         </label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">person</span>
-                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Ahmad Fauzi"
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" required
                                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
                         </div>
                     </div>
@@ -64,22 +65,28 @@
                         </label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">mail</span>
-                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@example.com"
+                            <input type="email" name="email" value="{{ old('email', $user->email) }}" required
                                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
                         </div>
                     </div>
+                </div>
+
+                <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl flex items-start gap-3">
+                    <span class="material-symbols-outlined text-orange-600 mt-0.5">info</span>
+                    <p class="text-xs text-orange-800 leading-relaxed font-medium">
+                        Kosongkan password jika Anda tidak ingin merubahnya. Jika diisi, password lama akan diganti dengan yang baru.
+                    </p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- PASSWORD --}}
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-ant-text flex items-center gap-2">
-                            Password
-                            <span class="text-red-500">*</span>
+                            Password Baru
                         </label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">lock</span>
-                            <input type="password" name="password" required placeholder="Minimal 5 karakter"
+                            <input type="password" name="password" placeholder="Min 5 karakter"
                                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
                         </div>
                     </div>
@@ -87,12 +94,11 @@
                     {{-- CONFIRM PASSWORD --}}
                     <div class="space-y-1.5">
                         <label class="text-sm font-bold text-ant-text flex items-center gap-2">
-                            Ulangi Password
-                            <span class="text-red-500">*</span>
+                            Konfirmasi Password
                         </label>
                         <div class="relative">
                             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">key</span>
-                            <input type="password" name="password_confirmation" required placeholder="Ketik ulang password"
+                            <input type="password" name="password_confirmation" placeholder="Ketik ulang password"
                                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
                         </div>
                     </div>
@@ -103,7 +109,7 @@
                     <label class="text-sm font-bold text-ant-text">Pilih Role Pengguna <span class="text-red-500">*</span></label>
                     <div class="grid grid-cols-2 gap-4">
                         <label class="cursor-pointer group">
-                            <input type="radio" name="role" value="tamu" class="hidden peer" checked>
+                            <input type="radio" name="role" value="tamu" class="hidden peer" {{ $user->role === 'tamu' ? 'checked' : '' }}>
                             <div class="p-3 border-2 border-ant-borderSplit bg-white rounded-xl transition-all peer-checked:border-ant-primary peer-checked:bg-ant-primary/5 flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <span class="material-symbols-outlined text-[20px]">person</span>
@@ -116,7 +122,7 @@
                         </label>
 
                         <label class="cursor-pointer group">
-                            <input type="radio" name="role" value="admin" class="hidden peer">
+                            <input type="radio" name="role" value="admin" class="hidden peer" {{ $user->role === 'admin' ? 'checked' : '' }}>
                             <div class="p-3 border-2 border-ant-borderSplit bg-white rounded-xl transition-all peer-checked:border-ant-primary peer-checked:bg-ant-primary/5 flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                                     <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
@@ -139,8 +145,8 @@
                     </a>
 
                     <button type="submit" class="ant-btn-primary h-11 px-8 shadow-lg shadow-ant-primary/20">
-                        <span class="material-symbols-outlined text-[20px]">save</span>
-                        Simpan Akun Baru
+                        <span class="material-symbols-outlined text-[20px]">check</span>
+                        Simpan Perubahan
                     </button>
                 </div>
             </form>

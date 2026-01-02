@@ -21,7 +21,7 @@ class AdminDashboardController extends Controller
 
         $totalReservasi = Reservasi::count();
         $pending        = Reservasi::where('status_pembayaran', 'pending')->count();
-        $paid           = Reservasi::where('status_pembayaran', 'paid')->count();
+        $paid           = Reservasi::where('status_pembayaran', 'confirmed')->count();
         $cancelled      = Reservasi::where('status_pembayaran', 'cancelled')->count();
 
         // Grafik — reservasi 7 hari terakhir

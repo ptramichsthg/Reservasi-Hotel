@@ -7,32 +7,38 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminUserController extends Controller
 {
     public function __construct()
     {
-        // 🔐 Hanya admin yang boleh akses
+        // Hanya admin yang boleh akses
         $this->middleware(['auth', 'role:admin']);
     }
 
     /**
      * ============================
-     * 📋 Daftar semua admin
+     * Daftar semua user (Admin & Tamu)
      * ============================
      */
-    public function index()
+    public function index(Request $request)
     {
-        $admins = User::where('role', 'admin')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = User::query();
 
-        return view('admin.users.index', compact('admins'));
+        // Filter berdasarkan role jika ada
+        if ($request->has('role') && in_array($request->role, ['admin', 'tamu'])) {
+            $query->where('role', $request->role);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('admin.users.index', compact('users'));
     }
 
     /**
      * ============================
-     * ➕ Form tambah admin
+     * Form tambah user baru
      * ============================
      */
     public function create()
@@ -42,7 +48,7 @@ class AdminUserController extends Controller
 
     /**
      * ============================
-     * 💾 Simpan admin baru
+     * Simpan user baru
      * ============================
      */
     public function store(Request $request): RedirectResponse
@@ -51,42 +57,87 @@ class AdminUserController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:5|confirmed',
+            'role'     => 'required|in:admin,tamu',
         ]);
 
         User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => 'admin', // selalu admin
+            'role'     => $request->role,
         ]);
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Admin baru berhasil ditambahkan.');
+            ->with('success', 'User ' . ucfirst($request->role) . ' berhasil ditambahkan.');
     }
 
     /**
      * ============================
-     * 🗑️ Hapus admin
+     * Form edit user
+     * ============================
+     */
+    public function edit(int $id)
+    {
+        $user = User::where('id_user', $id)->firstOrFail();
+        return view('admin.users.edit', compact('user'));
+    }
+
+    /**
+     * ============================
+     * Update data user
+     * ============================
+     */
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $user = User::where('id_user', $id)->firstOrFail();
+
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => ['required', 'email', Rule::unique('users')->ignore($user->id_user, 'id_user')],
+            'role'     => 'required|in:admin,tamu',
+            'password' => 'nullable|min:5|confirmed',
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ];
+
+        // Jika password diisi, maka update password
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'Akun ' . $user->name . ' berhasil diperbarui.');
+    }
+
+    /**
+     * ============================
+     * Hapus user
      * ============================
      */
     public function destroy(int $id): RedirectResponse
     {
-        $admin = User::where('role', 'admin')
-            ->where('id_user', $id)
-            ->firstOrFail();
+        $user = User::where('id_user', $id)->firstOrFail();
 
-        // ❗ Cegah hapus akun sendiri
-        if ($admin->id_user === Auth::user()->id_user) {
+        // Cegah hapus akun sendiri jika dia admin
+        if ($user->id_user === Auth::user()->id_user) {
             return redirect()
                 ->route('admin.users.index')
-                ->with('error', 'Anda tidak dapat menghapus akun admin yang sedang digunakan.');
+                ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
-        $admin->delete();
+        $role = $user->role;
+        $user->delete();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Admin berhasil dihapus.');
+            ->with('success', 'Akun ' . ucfirst($role) . ' berhasil dihapus.');
     }
 }
