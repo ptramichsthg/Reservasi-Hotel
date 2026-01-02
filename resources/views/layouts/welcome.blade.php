@@ -19,7 +19,11 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     {{-- ===============================
+<<<<<<< HEAD
        GLOBAL STYLE (WELCOME ONLY)
+=======
+       /* GLOBAL STYLE (WELCOME ONLY) */
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
     =============================== --}}
     <style>
         html {
@@ -78,7 +82,11 @@
 <body class="font-sans text-gray-900 flex flex-col min-h-screen">
 
 {{-- ======================================================
+<<<<<<< HEAD
    NAVBAR (PUBLIC / WELCOME ONLY)
+=======
+   /* NAVBAR (PUBLIC / WELCOME ONLY) */
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 ====================================================== --}}
 <header class="fixed top-0 w-full z-50 glass rgb-border rounded-b-3xl shadow-2xl" x-data="{ mobileMenuOpen: false }">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between relative">
@@ -147,14 +155,22 @@
 </header>
 
 {{-- ======================================================
+<<<<<<< HEAD
    PAGE CONTENT
+=======
+   /* PAGE CONTENT */
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 ====================================================== --}}
 <main class="flex-grow pt-28">
     @yield('content')
 </main>
 
 {{-- ======================================================
+<<<<<<< HEAD
    OPTIONAL FOOTER SLOT
+=======
+   /* OPTIONAL FOOTER SLOT */
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 ====================================================== --}}
 @hasSection('footer')
 <footer>

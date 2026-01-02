@@ -2,6 +2,7 @@
 
 @section('content')
 
+<<<<<<< HEAD
 <div class="p-6 md:p-8 space-y-8 animate-fade-in">
     {{-- HEADER --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -15,6 +16,59 @@
         <a href="{{ route('admin.laporan.export.kamar') }}" class="ant-btn-primary h-11 px-6 shadow-lg shadow-ant-primary/20 transition-all hover:scale-105 active:scale-95">
             <span class="material-symbols-outlined text-[20px]">download</span>
             Export Laporan Kamar
+=======
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-blue-800 mb-2 flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+        <span>Laporan Kamar</span>
+    </h1>
+    <p class="text-gray-600">Statistik seluruh kamar dalam sistem.</p>
+</div>
+
+{{-- STATISTIK --}}
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+
+    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <p class="text-gray-600">Total Kamar</p>
+        <h2 class="text-3xl font-bold text-blue-700">{{ $stat['total_kamar'] }}</h2>
+    </div>
+
+    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <p class="text-gray-600">Available</p>
+        <h2 class="text-3xl font-bold text-green-600">{{ $stat['available'] }}</h2>
+    </div>
+
+    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <p class="text-gray-600">Booked</p>
+        <h2 class="text-3xl font-bold text-orange-500">{{ $stat['booked'] }}</h2>
+    </div>
+
+    <div class="glass p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <p class="text-gray-600">Maintenance / Unavailable</p>
+        <h2 class="text-3xl font-bold text-red-600">
+            {{ $stat['maintenance'] + $stat['unavailable'] }}
+        </h2>
+    </div>
+
+</div>
+
+{{-- TABEL KAMAR --}}
+<div class="glass p-6 rounded-3xl shadow">
+
+    <div class="flex justify-between mb-4">
+        <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Daftar Kamar</span>
+        </h2>
+
+        <a href="{{ route('admin.laporan.export.kamar') }}"
+           class="px-5 py-2 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">
+            ⬇ Export Laporan
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         </a>
     </div>
 

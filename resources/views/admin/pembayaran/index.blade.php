@@ -2,6 +2,7 @@
 
 @section('content')
 
+<<<<<<< HEAD
 <div class="p-6 md:p-8 space-y-8 animate-fade-in">
     {{-- HEADER --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -13,6 +14,14 @@
             <p class="text-sm text-ant-textSecondary mt-1">Konfirmasi bukti transfer yang diunggah oleh tamu.</p>
         </div>
     </div>
+=======
+<h1 class="text-3xl font-bold mb-6 flex items-center gap-2">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+    </svg>
+    <span>Verifikasi Pembayaran</span>
+</h1>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 
     {{-- ALERTS --}}
     @if(session('success'))
@@ -22,6 +31,7 @@
         </div>
     @endif
 
+<<<<<<< HEAD
     {{-- PAYMENTS TABLE --}}
     <div class="bg-white rounded-2xl shadow-sm border border-ant-borderSplit overflow-hidden animate-slide-up">
         @if($payments->isEmpty())
@@ -108,6 +118,60 @@
                     </tbody>
                 </table>
             </div>
+=======
+    <table class="w-full">
+        <thead>
+            <tr class="text-left border-b">
+                <th class="py-3">Reservasi</th>
+                <th class="py-3">Bukti</th>
+                <th class="py-3">Status</th>
+                <th class="py-3">Aksi</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($payments as $pay)
+            <tr class="border-b hover:bg-gray-100">
+
+                <td class="py-3">{{ $pay->reservasi_id }}</td>
+
+                <td class="py-3">
+                    <a href="{{ asset('uploads/bukti/'.$pay->bukti_pembayaran) }}"
+                       target="_blank" class="text-blue-600 underline">
+                        Lihat Bukti
+                    </a>
+                </td>
+
+                <td class="py-3">
+                    <span class="px-3 py-1 rounded text-white
+                        {{ $pay->status == 'pending' ? 'bg-yellow-500' : 'bg-green-600' }}">
+                        {{ ucfirst($pay->status) }}
+                    </span>
+                </td>
+
+                <td class="py-3">
+                    @if($pay->status == 'pending')
+                    <form action="{{ route('admin.payment.verify', $pay->id) }}" method="POST">
+                        @csrf
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                            Verifikasi
+                        </button>
+                    </form>
+                    @else
+                    <span class="text-green-600 font-semibold flex items-center gap-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Sudah Diverifikasi
+                    </span>
+                    @endif
+                </td>
+
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 
             {{-- PAGINATION --}}
             @if(method_exists($payments, 'links'))

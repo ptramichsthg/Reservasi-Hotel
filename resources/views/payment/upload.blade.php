@@ -11,11 +11,36 @@
         </a>
     </div>
 
+<<<<<<< HEAD
     {{-- HEADER --}}
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-ant-text flex items-center gap-3">
             <div class="w-10 h-10 bg-ant-primary/10 rounded-xl flex items-center justify-center text-ant-primary shadow-sm shadow-ant-primary/10">
                 <span class="material-symbols-outlined text-[24px]">payments</span>
+=======
+    <h1 class="text-3xl font-extrabold text-gray-700 mb-8 tracking-wide flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+        </svg>
+        <span>Upload Bukti Pembayaran</span>
+    </h1>
+
+    <div class="bg-white rounded-2xl shadow-xl p-6 max-w-xl mx-auto">
+
+        <form action="{{ route('tamu.payment.upload') }}"
+              method="POST"
+              enctype="multipart/form-data">
+            @csrf
+
+            <input type="hidden" name="reservasi_id" value="{{ $reservasi_id }}">
+
+            <div class="mb-4">
+                <label class="block font-semibold text-gray-700 mb-2">
+                    Pilih Gambar Bukti Pembayaran
+                </label>
+                <input type="file" name="bukti" required
+                       class="w-full p-3 border border-gray-300 rounded-xl">
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </div>
             Konfirmasi Pembayaran
         </h1>

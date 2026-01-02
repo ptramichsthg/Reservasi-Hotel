@@ -4,9 +4,17 @@
 
 <div class="max-w-4xl mx-auto p-8 glass rounded-3xl shadow-xl">
 
+<<<<<<< HEAD
     <h1 class="text-3xl font-bold text-blue-900 mb-6 flex items-center gap-3">
         <span class="material-symbols-outlined text-[32px] text-ant-primary">domain</span>
         Detail Kamar: {{ $kamar->tipe_kamar }}
+=======
+    <h1 class="text-3xl font-bold text-blue-900 mb-6 flex items-center gap-2">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <span>Detail Kamar: {{ $kamar->tipe_kamar }}</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
     </h1>
 
     {{-- FOTO UTAMA --}}
@@ -60,8 +68,15 @@
     {{-- DESKRIPSI --}}
     <div class="mt-8 p-5 bg-white/70 rounded-xl shadow">
         <h2 class="text-xl font-semibold mb-2 flex items-center gap-2">
+<<<<<<< HEAD
             <span class="material-symbols-outlined text-ant-textSecondary">description</span>
             Deskripsi
+=======
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <span>Deskripsi</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         </h2>
 
         <p class="text-gray-800">
@@ -72,8 +87,15 @@
     {{-- Fasilitas --}}
     <div class="mt-8 p-5 bg-white/70 rounded-xl shadow">
         <h2 class="text-xl font-semibold mb-3 flex items-center gap-2">
+<<<<<<< HEAD
             <span class="material-symbols-outlined text-ant-primary">build</span>
             Fasilitas
+=======
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+            <span>Fasilitas</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         </h2>
 
         @php
@@ -104,8 +126,15 @@
         <a href="{{ route('admin.kamar.edit', $kamar->id_kamar) }}"
            class="px-5 py-3 bg-blue-600 text-white
                   rounded-xl hover:bg-blue-700 transition flex items-center gap-2">
+<<<<<<< HEAD
            <span class="material-symbols-outlined text-[18px]">edit</span>
            Edit Kamar
+=======
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            <span>Edit Kamar</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         </a>
 
     </div>

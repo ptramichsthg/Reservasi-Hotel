@@ -13,7 +13,11 @@
 
     <style>
         /* ===============================
+<<<<<<< HEAD
            BACKGROUND
+=======
+           BACKGROUND GRADIENT
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         =============================== */
         body {
             background: linear-gradient(135deg, #3b82f6, #ffffff, #a855f7);
@@ -74,8 +78,15 @@
 
     {{-- BRAND --}}
     <div class="flex items-center gap-3 px-6 py-6 border-b border-white/10">
+<<<<<<< HEAD
         <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">
             <span class="material-symbols-outlined text-[20px]">hotel</span>
+=======
+        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xs">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
         </div>
         <span class="text-lg font-extrabold tracking-wide">Laravel Hotel</span>
     </div>
@@ -100,7 +111,14 @@
 
             <a href="{{ route('admin.dashboard') }}"
                class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">dashboard</span> Dashboard
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <span>Dashboard</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <p class="px-3 pt-4 text-xs text-slate-400 uppercase tracking-wider">
@@ -109,22 +127,50 @@
 
             <a href="{{ route('admin.kamar.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.kamar.*') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">hotel</span> Manajemen Kamar
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span>Manajemen Kamar</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <a href="{{ route('admin.orders.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.orders.*') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">receipt_long</span> Data Reservasi
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span>Data Reservasi</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <a href="{{ route('admin.payment.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.payment.*') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">payments</span> Pembayaran
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>
+                <span>Pembayaran</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <a href="{{ route('admin.users.index') }}"
                class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">group</span> Manajemen Pengguna
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span>Manajemen Pengguna</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
         @endif
@@ -140,7 +186,14 @@
 
             <a href="{{ route('tamu.dashboard') }}"
                class="sidebar-item {{ request()->routeIs('tamu.dashboard') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">home</span> Dashboard
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span>Dashboard</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <p class="px-3 pt-4 text-xs text-slate-400 uppercase tracking-wider">
@@ -149,12 +202,26 @@
 
             <a href="{{ route('tamu.kamar.list') }}"
                class="sidebar-item {{ request()->routeIs('tamu.kamar.list') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">search</span> Cari Kamar
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span>Cari Kamar</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
             <a href="{{ route('tamu.orders.history') }}"
                class="sidebar-item {{ request()->routeIs('tamu.orders.history') ? 'sidebar-active' : '' }}">
+<<<<<<< HEAD
                 <span class="material-symbols-outlined text-[18px]">history</span> Riwayat Reservasi
+=======
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>Riwayat Reservasi</span>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
             </a>
 
         @endif

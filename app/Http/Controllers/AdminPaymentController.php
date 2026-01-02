@@ -42,7 +42,7 @@ class AdminPaymentController extends Controller
             'status_reservasi'  => 'confirmed',
         ]);
 
-        // KIRIM NOTIFIKASI
+        // Kirim notifikasi
         NotifikasiController::send(
             $reservasi->id_user,
             'Pembayaran Terverifikasi',
@@ -73,7 +73,7 @@ class AdminPaymentController extends Controller
             'status_reservasi'  => 'cancelled',
         ]);
 
-        // KIRIM NOTIFIKASI
+        // Kirim notifikasi
         NotifikasiController::send(
             $reservasi->id_user,
             'Pembayaran Ditolak',

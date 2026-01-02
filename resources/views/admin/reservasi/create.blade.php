@@ -12,6 +12,7 @@
         <span class="text-ant-text font-medium">Buat Reservasi</span>
     </div>
 
+<<<<<<< HEAD
     {{-- HEADER --}}
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-ant-text flex items-center gap-3">
@@ -22,6 +23,14 @@
         </h1>
         <p class="text-sm text-ant-textSecondary mt-2">Membuat pesanan baru untuk tipe kamar: <span class="font-bold text-ant-text">{{ $kamar->tipe_kamar }}</span></p>
     </div>
+=======
+    <h2 class="text-2xl font-bold text-blue-700 mb-6 flex items-center gap-2">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+        <span>Reservasi Kamar: {{ $kamar->tipe_kamar }}</span>
+    </h2>
+>>>>>>> ad2b3ff3d6a0fedec6dd0bf27371a8a65b4eae8e
 
     {{-- FORM CARD --}}
     <div class="ant-card bg-white shadow-sm overflow-hidden">
