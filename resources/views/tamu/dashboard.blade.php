@@ -1,266 +1,204 @@
-@extends('layouts.app')
+@extends('layouts.tamu')
 
 @section('content')
 
-{{-- Chart.js --}}
+{{-- Chart.js with AntD Colors --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
-    .page-bg {
-        background: radial-gradient(1200px 600px at 20% 10%, rgba(59,130,246,0.15), transparent 55%),
-                    radial-gradient(900px 500px at 85% 25%, rgba(168,85,247,0.12), transparent 60%),
-                    linear-gradient(180deg, #f1f5f9 0%, #eef2ff 60%, #f8fafc 100%);
-        min-height: 100vh;
-    }
+<div class="mb-8">
+    <h1 class="text-2xl font-bold text-ant-text capitalize">Hi, {{ Auth::user()->name }}!</h1>
+    <p class="text-ant-textSecondary text-sm mt-1">Selamat datang kembali di Blue Haven Hotel. Berikut adalah ringkasan akun Anda.</p>
+</div>
 
-    .card {
-        background: rgba(255,255,255,0.95);
-        border-radius: 18px;
-        box-shadow: 0 12px 32px rgba(0,0,0,.08);
-    }
-
-    .card-hover {
-        transition: all .25s ease;
-    }
-    .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 40px rgba(0,0,0,.12);
-    }
-
-    .stat {
-        border-radius: 18px;
-        color: white;
-    }
-
-    .stat-inner {
-        padding: 22px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .stat-label {
-        font-size: 14px;
-        font-weight: 700;
-        opacity: .9;
-    }
-
-    .stat-num {
-        font-size: 44px;
-        font-weight: 900;
-    }
-
-    .table th {
-        font-size: 12px;
-        text-transform: uppercase;
-        color: #64748b;
-        padding: 14px;
-        background: #f8fafc;
-    }
-
-    .table td {
-        padding: 14px;
-        border-bottom: 1px solid #e5e7eb;
-        font-size: 14px;
-    }
-
-    .badge {
-        padding: 6px 12px;
-        border-radius: 9999px;
-        font-size: 12px;
-        font-weight: 700;
-    }
-</style>
-
-<div class="page-bg p-6 md:p-10 rounded-3xl">
-
-    {{-- HEADER --}}
-    <div class="flex flex-col lg:flex-row lg:justify-between gap-4 mb-8">
-        <div>
-            <h1 class="text-4xl font-extrabold text-slate-900">
-                Selamat Datang, {{ Auth::user()->name }} 👋
-            </h1>
-            <p class="text-slate-600 mt-1">
-                Berikut ringkasan aktivitas reservasi Anda hari ini
-            </p>
+{{-- METRICS SECTION --}}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    {{-- Total Reservasi --}}
+    <div class="ant-card p-5">
+        <div class="flex items-center gap-3 text-ant-textSecondary mb-2">
+            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            <span class="text-sm font-medium">Total Reservasi</span>
         </div>
-        <div class="text-right">
-            <p class="text-slate-600 text-sm">{{ now()->translatedFormat('l, d F Y') }}</p>
-            <p class="text-xl font-extrabold">{{ now()->format('H:i') }} WIB</p>
+        <div class="text-2xl font-bold text-ant-text leading-none">{{ $totalPemesanan }}</div>
+        <div class="mt-3 flex items-center text-[11px] text-green-500 font-bold bg-green-50 w-fit px-2 py-0.5 rounded gap-1">
+            <span class="material-symbols-outlined text-[14px]">trending_up</span>
+            <span>12% dari bulan lalu</span>
         </div>
     </div>
 
-    {{-- STATISTIK --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-
-        <div class="stat bg-gradient-to-br from-blue-600 to-blue-500">
-            <div class="stat-inner">
-                <div>
-                    <p class="stat-label">Total Reservasi</p>
-                    <p class="stat-num">{{ $totalPemesanan }}</p>
-                </div>
-            </div>
+    {{-- Pending --}}
+    <div class="ant-card p-5">
+        <div class="flex items-center gap-3 text-ant-textSecondary mb-2">
+            <span class="material-symbols-outlined text-[18px]">pending_actions</span>
+            <span class="text-sm font-medium">Menunggu Konfirmasi</span>
         </div>
-
-        <div class="stat bg-gradient-to-br from-orange-500 to-amber-500">
-            <div class="stat-inner">
-                <div>
-                    <p class="stat-label">Menunggu Konfirmasi</p>
-                    <p class="stat-num">{{ $pending }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="stat bg-gradient-to-br from-emerald-600 to-green-500">
-            <div class="stat-inner">
-                <div>
-                    <p class="stat-label">Terkonfirmasi</p>
-                    <p class="stat-num">{{ $confirmed }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="stat bg-gradient-to-br from-red-600 to-rose-500">
-            <div class="stat-inner">
-                <div>
-                    <p class="stat-label">Dibatalkan</p>
-                    <p class="stat-num">{{ $cancelled }}</p>
-                </div>
-            </div>
-        </div>
-
+        <div class="text-2xl font-bold text-ant-text leading-none">{{ $pending }}</div>
+        <div class="mt-3 text-[11px] text-ant-textSecondary">Perlu perhatian Admin</div>
     </div>
 
-    {{-- TOTAL KAMAR --}}
-    <div class="card card-hover p-6 mb-8">
-        <div class="flex justify-between items-center">
-            <div>
-                <h3 class="text-lg font-extrabold">Total Jenis Kamar</h3>
-                <p class="text-sm text-slate-600">
-                    Jumlah tipe kamar yang pernah Anda pesan
-                </p>
-            </div>
-            <p class="text-6xl font-black text-blue-600">{{ $totalKamar }}</p>
+    {{-- Confirmed --}}
+    <div class="ant-card p-5">
+        <div class="flex items-center gap-3 text-ant-textSecondary mb-2">
+            <span class="material-symbols-outlined text-[18px]">task_alt</span>
+            <span class="text-sm font-medium">Terkonfirmasi</span>
         </div>
+        <div class="text-2xl font-bold text-ant-text leading-none">{{ $confirmed }}</div>
+        <div class="mt-3 text-[11px] text-green-600 font-medium">Siap untuk Check-in</div>
     </div>
 
-    {{-- GRID UTAMA --}}
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+    {{-- Cancelled --}}
+    <div class="ant-card p-5 text-red-500">
+        <div class="flex items-center gap-3 text-ant-textSecondary mb-2">
+            <span class="material-symbols-outlined text-[18px]">cancel</span>
+            <span class="text-sm font-medium">Dibatalkan</span>
+        </div>
+        <div class="text-2xl font-bold text-ant-text leading-none">{{ $cancelled }}</div>
+        <div class="mt-3 text-[11px] text-ant-textSecondary">Reservasi yang tidak dilanjutkan</div>
+    </div>
+</div>
 
-        {{-- TABEL --}}
-        <div class="card card-hover p-6 xl:col-span-2">
-            <h3 class="text-lg font-extrabold mb-4">
-                Reservasi Terbaru
-            </h3>
+{{-- SECONDARY SECTION --}}
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    
+    {{-- LATEST RESERVATIONS TABLE --}}
+    <div class="ant-card p-6 xl:col-span-2">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-base font-bold text-ant-text">Reservasi Terbaru</h3>
+            <a href="{{ route('tamu.orders.history') }}" class="text-ant-primary text-sm hover:underline font-medium">Lihat Semua</a>
+        </div>
 
-            <table class="table w-full">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
                 <thead>
-                    <tr>
-                        <th>Kamar</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
+                    <tr class="bg-ant-bg border-b border-ant-borderSplit">
+                        <th class="py-4 px-4 font-bold text-ant-textSecondary">Tipe Kamar</th>
+                        <th class="py-4 px-4 font-bold text-ant-textSecondary">Durasi Menginap</th>
+                        <th class="py-4 px-4 font-bold text-ant-textSecondary">Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                @isset($latestReservasi)
-                    @forelse($latestReservasi as $r)
-                        @php
-                            $warna = match($r->status_reservasi) {
-                                'pending' => 'bg-orange-100 text-orange-700',
-                                'confirmed' => 'bg-green-100 text-green-700',
-                                'completed' => 'bg-blue-100 text-blue-700',
-                                'cancelled' => 'bg-red-100 text-red-700',
-                                default => 'bg-gray-100 text-gray-700'
-                            };
-                        @endphp
-                        <tr>
-                            <td class="font-semibold">
-                                {{ $r->kamar->tipe_kamar ?? '-' }}
-                            </td>
-                            <td>
-                                Check-in: {{ $r->tgl_checkin }} <br>
-                                Check-out: {{ $r->tgl_checkout }}
-                            </td>
-                            <td>
-                                <span class="badge {{ $warna }}">
-                                    {{ ucfirst($r->status_reservasi) }}
-                                </span>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center text-slate-500 py-8">
-                                Belum ada reservasi
-                            </td>
-                        </tr>
-                    @endforelse
-                @endisset
+                <tbody class="divide-y divide-ant-borderSplit">
+                    @isset($latestReservasi)
+                        @forelse($latestReservasi as $r)
+                            @php
+                                $statusStyle = match($r->status_reservasi) {
+                                    'pending' => 'bg-orange-50 text-orange-600 border-orange-200',
+                                    'confirmed' => 'bg-blue-50 text-blue-600 border-blue-200',
+                                    'completed' => 'bg-green-50 text-green-600 border-green-200',
+                                    'cancelled' => 'bg-red-50 text-red-600 border-red-200',
+                                    default => 'bg-gray-50 text-gray-600 border-gray-200'
+                                };
+                            @endphp
+                            <tr class="hover:bg-ant-bg/50 transition-colors">
+                                <td class="py-4 px-4 font-semibold text-ant-text">{{ $r->kamar->tipe_kamar ?? '-' }}</td>
+                                <td class="py-4 px-4">
+                                    <div class="flex flex-col">
+                                        <span class="text-ant-text">{{ $r->tgl_checkin }}</span>
+                                        <span class="text-[11px] text-ant-textSecondary">Checkout: {{ $r->tgl_checkout }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <span class="px-2 py-1 rounded text-[11px] font-bold uppercase border {{ $statusStyle }}">
+                                        {{ $r->status_reservasi }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="py-12 text-center text-ant-textSecondary italic">Belum ada aktivitas reservasi saat ini.</td>
+                            </tr>
+                        @endforelse
+                    @endisset
                 </tbody>
             </table>
-
-            <div class="text-right mt-4">
-                <a href="{{ route('tamu.orders.history') }}"
-                   class="font-bold text-blue-600 hover:underline">
-                    Lihat Riwayat →
-                </a>
-            </div>
         </div>
+    </div>
 
-        {{-- CHART --}}
-        <div class="card card-hover p-6">
-            <h3 class="text-lg font-extrabold mb-4">
-                Reservasi 7 Hari Terakhir
-            </h3>
-            <div style="height:300px">
+    {{-- CHART CARD --}}
+    <div class="ant-card p-6 flex flex-col">
+        <h3 class="text-base font-bold text-ant-text mb-6">Analisis Mingguan</h3>
+        <div class="flex-grow flex items-center justify-center">
+            <div class="w-full" style="height: 250px">
                 <canvas id="chartPemesanan"></canvas>
             </div>
         </div>
-
-    </div>
-
-    {{-- CHART FAVORIT --}}
-    <div class="card card-hover p-6 mb-8">
-        <h3 class="text-lg font-extrabold mb-4">
-            Jenis Kamar Favorit
-        </h3>
-        <div style="height:320px">
-            <canvas id="chartJenisKamar"></canvas>
+        <div class="mt-6 pt-6 border-t border-ant-borderSplit">
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-ant-textSecondary">Total Favorit:</span>
+                <span class="font-bold text-ant-primary capitalize">{{ $tipeKamar[0] ?? '-' }}</span>
+            </div>
         </div>
     </div>
-
 </div>
 
-{{-- CHART SCRIPT --}}
+{{-- BOTTOM SECTION --}}
+<div class="mt-8 ant-card p-6">
+    <h3 class="text-base font-bold text-ant-text mb-6">Perbandingan Tipe Kamar</h3>
+    <div style="height: 300px">
+        <canvas id="chartJenisKamar"></canvas>
+    </div>
+</div>
+
 <script>
-    new Chart(chartPemesanan, {
+    // Config Chart Defaults for AntD Look
+    Chart.defaults.color = 'rgba(0, 0, 0, 0.45)';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    new Chart(document.getElementById('chartPemesanan'), {
         type: 'line',
         data: {
             labels: {!! json_encode($tanggal) !!},
             datasets: [{
                 label: 'Jumlah Reservasi',
                 data: {!! json_encode($total) !!},
-                borderColor: 'rgb(37,99,235)',
-                backgroundColor: 'rgba(37,99,235,0.1)',
-                tension: 0.4,
+                borderColor: '#1677ff',
+                backgroundColor: 'rgba(22, 119, 255, 0.05)',
+                borderWidth: 2,
+                pointBackgroundColor: '#fff',
+                pointBorderColor: '#1677ff',
+                pointBorderWidth: 2,
+                pointHoverRadius: 6,
+                tension: 0.2,
                 fill: true
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                x: { grid: { display: false } }
+            }
+        }
     });
 
-    new Chart(chartJenisKamar, {
+    new Chart(document.getElementById('chartJenisKamar'), {
         type: 'bar',
         data: {
             labels: {!! json_encode($tipeKamar) !!},
             datasets: [{
                 label: 'Jumlah Pesanan',
                 data: {!! json_encode($jumlahTipe) !!},
-                backgroundColor: 'rgba(37,99,235,0.7)',
-                borderRadius: 12
+                backgroundColor: '#1677ff',
+                borderRadius: 4,
+                barThickness: 32
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                x: { grid: { display: false } }
+            }
+        }
     });
 </script>
 
 @endsection
+
+

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 // ===============================
-// 📌 IMPORT CONTROLLER
+//  IMPORT CONTROLLER
 // ===============================
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TamuController;
@@ -15,12 +15,14 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminLaporanController;
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\TamuProfileController;
 
 
 // ===============================
-// 🌐 LANDING PAGE
+//  LANDING PAGE
 // ===============================
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +30,7 @@ Route::get('/', function () {
 
 
 // ===============================
-// 🔵 AUTH ROUTES
+//  AUTH ROUTES
 // ===============================
 Route::get('/login', [AuthController::class, 'loginView'])
     ->name('login');
@@ -46,7 +48,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 
 // ===============================
-// 🔐 FORGOT & RESET PASSWORD
+//  FORGOT & RESET PASSWORD
 // ===============================
 Route::middleware('guest')->group(function () {
 
@@ -65,7 +67,7 @@ Route::middleware('guest')->group(function () {
 
 
 // ======================================================
-// 🔴 ADMIN ROUTES (ROLE: admin)
+//  ADMIN ROUTES (ROLE: admin)
 // ======================================================
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
@@ -73,14 +75,14 @@ Route::middleware(['auth', 'role:admin'])
     ->group(function () {
 
         // ===============================
-        // 📊 DASHBOARD
+        //  DASHBOARD
         // ===============================
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('dashboard');
 
 
         // ===============================
-        // 👤 KELOLA ADMIN (CRUD + DELETE)
+        //  KELOLA ADMIN (CRUD + DELETE)
         // ===============================
         Route::get('/users', [AdminUserController::class, 'index'])
             ->name('users.index');
@@ -91,13 +93,19 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/users', [AdminUserController::class, 'store'])
             ->name('users.store');
 
-        // 🔥 DELETE ADMIN (FINAL FIX)
+        Route::get('/users/edit/{id}', [AdminUserController::class, 'edit'])
+            ->name('users.edit');
+
+        Route::put('/users/update/{id}', [AdminUserController::class, 'update'])
+            ->name('users.update');
+
+        //  DELETE ADMIN (FINAL FIX)
         Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])
             ->name('users.destroy');
 
 
         // ===============================
-        // 🏨 KELOLA KAMAR
+        //  KELOLA KAMAR
         // ===============================
         Route::get('/kamar', [KamarController::class, 'index'])
             ->name('kamar.index');
@@ -122,7 +130,7 @@ Route::middleware(['auth', 'role:admin'])
 
 
         // ===============================
-        // 💳 VERIFIKASI PEMBAYARAN
+        //  VERIFIKASI PEMBAYARAN
         // ===============================
         Route::get('/verifikasi', [AdminPaymentController::class, 'index'])
             ->name('payment.index');
@@ -135,7 +143,7 @@ Route::middleware(['auth', 'role:admin'])
 
 
         // ===============================
-        // 📑 DATA PEMESANAN
+        //  DATA PEMESANAN
         // ===============================
         Route::get('/pemesanan', [AdminOrderController::class, 'index'])
             ->name('orders.index');
@@ -148,7 +156,7 @@ Route::middleware(['auth', 'role:admin'])
 
 
         // ===============================
-        // 📊 LAPORAN
+        //  LAPORAN
         // ===============================
         Route::get('/laporan/transaksi', [AdminLaporanController::class, 'transaksi'])
             ->name('laporan.transaksi');
@@ -156,7 +164,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/laporan/kamar', [AdminLaporanController::class, 'kamar'])
             ->name('laporan.kamar');
 
-        // 📄 EXPORT PDF
+        //  EXPORT PDF
         Route::get('/laporan/export/transaksi', [AdminLaporanController::class, 'exportTransaksiPDF'])
             ->name('laporan.export.transaksi');
 
@@ -164,18 +172,22 @@ Route::middleware(['auth', 'role:admin'])
             ->name('laporan.export.kamar');
 
         // ===============================
-        // 👤 PROFILE ADMIN
+        //  PROFILE ADMIN
         // ===============================
         Route::get('/profile/edit', [AdminDashboardController::class, 'editProfile'])
             ->name('profile.edit');
 
         Route::put('/profile/update', [AdminDashboardController::class, 'updateProfile'])
             ->name('profile.update');
+
+        //  DAFTAR KAMAR (Admin view available rooms)
+        Route::get('/daftar-kamar', [KamarController::class, 'listKamarTamu'])
+            ->name('daftar-kamar');
     });
 
 
 // ======================================================
-// 🟢 TAMU ROUTES (ROLE: tamu)
+//  TAMU ROUTES (ROLE: tamu)
 // ======================================================
 Route::middleware(['auth', 'role:tamu'])
     ->prefix('tamu')
@@ -214,4 +226,18 @@ Route::middleware(['auth', 'role:tamu'])
 
         Route::post('/notifikasi/baca/{id}', [NotifikasiController::class, 'markRead'])
             ->name('notifikasi.baca');
+
+        Route::post('/notifikasi/baca-semua', [NotifikasiController::class, 'markAllRead'])
+            ->name('notifikasi.baca-semua');
+
+        // ===============================
+        //  PROFILE TAMU
+        // ===============================
+        Route::get('/profile/edit', [TamuProfileController::class, 'edit'])
+            ->name('profile.edit');
+
+        Route::put('/profile/update', [TamuProfileController::class, 'update'])
+            ->name('profile.update');
     });
+
+

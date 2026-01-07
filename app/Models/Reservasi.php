@@ -29,7 +29,7 @@ class Reservasi extends Model
     ];
 
     /* ============================================================
-     * 🔵 RELASI USER (1 reservasi dimiliki 1 user)
+     * RELASI USER (1 reservasi dimiliki 1 user)
      * ============================================================
      */
     public function user()
@@ -38,7 +38,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI KAMAR (1 reservasi memilih 1 kamar)
+     * RELASI KAMAR (1 reservasi memilih 1 kamar)
      * ============================================================
      */
     public function kamar()
@@ -47,7 +47,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI PEMBAYARAN (1 reservasi punya 1 pembayaran)
+     * RELASI PEMBAYARAN (1 reservasi punya 1 pembayaran)
      * ============================================================
      */
     public function pembayaran()
@@ -56,7 +56,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI NOTIFIKASI (1 reservasi menghasilkan banyak notifikasi)
+     * RELASI NOTIFIKASI (1 reservasi menghasilkan banyak notifikasi)
      * ============================================================
      */
     public function notifikasi()

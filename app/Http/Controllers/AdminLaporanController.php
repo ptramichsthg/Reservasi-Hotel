@@ -11,7 +11,7 @@ class AdminLaporanController extends Controller
 {
     /**
      * ===============================
-     * 📊 LAPORAN KAMAR (VIEW HTML)
+     * LAPORAN KAMAR (VIEW HTML)
      * ===============================
      */
     public function kamar()
@@ -32,7 +32,7 @@ class AdminLaporanController extends Controller
 
     /**
      * ===============================
-     * 💰 LAPORAN TRANSAKSI (VIEW HTML)
+     * LAPORAN TRANSAKSI (VIEW HTML)
      * ===============================
      */
     public function transaksi(Request $request)
@@ -62,7 +62,7 @@ class AdminLaporanController extends Controller
 
     /**
      * ======================================================
-     * 🧾 EXPORT LAPORAN KAMAR (PDF) ✅ FIX
+     * EXPORT LAPORAN KAMAR (PDF) FIX
      * ======================================================
      */
     public function exportKamarPDF()

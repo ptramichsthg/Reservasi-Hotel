@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Dashboard Admin' }} | Blue Haven</title>
+    <title>{{ $title ?? 'Dashboard Tamu' }} | Blue Haven</title>
 
     {{-- Tailwind & Google Fonts --}}
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,8 +56,8 @@
             left: 0;
             top: 0;
             z-index: 1000;
-            overflow-y: auto;
             transition: transform 0.3s ease;
+            overflow-y: auto;
         }
 
         @media (max-width: 1024px) {
@@ -95,12 +95,12 @@
         }
 
         .ant-menu-group {
-            padding: 12px 16px 8px;
+            padding: 14px 16px 6px;
             color: rgba(255, 255, 255, 0.45);
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
 
         .ant-header {
@@ -109,7 +109,7 @@
             padding: 0 24px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
             position: fixed;
             top: 0;
             left: 0;
@@ -151,35 +151,11 @@
             padding: 4px 15px;
             font-size: 14px;
             transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
         .ant-btn-primary:hover {
             background-color: #4096ff;
             border-color: #4096ff;
-        }
-
-        .ant-btn-danger {
-            background-color: #ff4d4f;
-            color: #fff;
-            border: 1px solid #ff4d4f;
-            border-radius: 6px;
-            height: 32px;
-            padding: 4px 15px;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .ant-btn-danger:hover {
-            background-color: #ff7875;
-            border-color: #ff7875;
         }
 
         .material-symbols-outlined {
@@ -190,69 +166,52 @@
 </head>
 <body x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
 
-    @if(Auth::check() && Auth::user()->role === 'admin')
-    
+    @if(Auth::check() && Auth::user()->role === 'tamu')
     {{-- BAGIAN SIDEBAR (NAVIGASI SAMPING) --}}
     <aside class="ant-sider shadow-xl" :class="{ 'open': sidebarOpen }">
-        <div class="h-16 flex items-center px-6 mb-4 border-b border-white/10">
+        <div class="h-16 flex items-center px-6 mb-4">
             <div class="w-8 h-8 bg-ant-primary rounded-lg flex items-center justify-center text-white font-bold mr-3 shadow-lg">
-                <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                <span class="material-symbols-outlined">hotel</span>
             </div>
-            <span class="text-white font-bold text-lg tracking-tight">Admin Panel</span>
+            <span class="text-white font-bold text-lg tracking-tight">Blue Haven</span>
         </div>
 
-        <nav class="px-3 pb-24">
-            <div class="ant-menu-group">Dashboard</div>
-            <a href="{{ route('admin.dashboard') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.dashboard') ? 'ant-menu-item-selected' : '' }}">
+        <nav class="px-3">
+            {{-- SEKSI: RINGKASAN --}}
+            <div class="ant-menu-group">Ringkasan</div>
+            <a href="{{ route('tamu.dashboard') }}" 
+               class="ant-menu-item {{ request()->routeIs('tamu.dashboard') ? 'ant-menu-item-selected' : '' }}">
                 <span class="material-symbols-outlined">dashboard</span>
-                <span class="text-sm font-medium">Ringkasan</span>
+                <span class="text-sm font-medium">Dashboard</span>
+            </a>
+            
+            {{-- SEKSI: LAYANAN PEMESANAN --}}
+            <div class="ant-menu-group mt-4">Layanan Pemesanan</div>
+            <a href="{{ route('tamu.kamar.list') }}" 
+               class="ant-menu-item {{ request()->routeIs('tamu.kamar.list') ? 'ant-menu-item-selected' : '' }}">
+                <span class="material-symbols-outlined">search</span>
+                <span class="text-sm font-medium">Cari Kamar</span>
             </a>
 
-            <div class="ant-menu-group mt-6">Operasional</div>
-            <a href="{{ route('admin.kamar.index') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.kamar.*') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">hotel</span>
-                <span class="text-sm font-medium">Manajemen Kamar</span>
+            <a href="{{ route('tamu.kamar.saya') }}" 
+               class="ant-menu-item {{ request()->routeIs('tamu.kamar.saya') ? 'ant-menu-item-selected' : '' }}">
+                <span class="material-symbols-outlined">meeting_room</span>
+                <span class="text-sm font-medium">Kamar Saya</span>
             </a>
 
-            <a href="{{ route('admin.orders.index') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.orders.*') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">receipt_long</span>
-                <span class="text-sm font-medium">Data Reservasi</span>
+            <a href="{{ route('tamu.orders.history') }}" 
+               class="ant-menu-item {{ request()->routeIs('tamu.orders.history') ? 'ant-menu-item-selected' : '' }}">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-sm font-medium">Riwayat</span>
             </a>
 
-            <a href="{{ route('admin.payment.index') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.payment.*') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">payments</span>
-                <span class="text-sm font-medium">Pembayaran</span>
-            </a>
-
-            <a href="{{ route('admin.users.index') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.users.*') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">group</span>
-                <span class="text-sm font-medium">Manajemen User</span>
-            </a>
-
-            <div class="ant-menu-group mt-6">Laporan</div>
-            <a href="{{ route('admin.laporan.kamar') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.laporan.kamar') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">analytics</span>
-                <span class="text-sm font-medium">Laporan Kamar</span>
-            </a>
-
-            <a href="{{ route('admin.laporan.transaksi') }}" 
-               class="ant-menu-item {{ request()->routeIs('admin.laporan.transaksi') ? 'ant-menu-item-selected' : '' }}">
-                <span class="material-symbols-outlined">receipt</span>
-                <span class="text-sm font-medium">Laporan Transaksi</span>
-            </a>
         </nav>
 
         <div class="absolute bottom-6 left-0 right-0 px-6">
-            <form id="logout-form-admin" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form-tamu" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-            <button onclick="confirmLogout('admin')" type="button" class="w-full h-10 flex items-center justify-center gap-2 text-white bg-red-500/80 hover:bg-red-600 rounded-lg transition-all text-sm font-bold">
+            <button onclick="confirmLogout('tamu')" type="button" class="w-full h-10 flex items-center justify-center gap-2 text-white bg-red-500/80 hover:bg-red-600 rounded-lg transition-all text-sm font-bold">
                 <span class="material-symbols-outlined">logout</span>
                 Keluar
             </button>
@@ -274,12 +233,11 @@
 
     {{-- BAGIAN HEADER (NAVIGASI ATAS) --}}
     <header class="ant-header">
-        <div class="flex items-center gap-3">
-            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden text-ant-textSecondary p-1 hover:bg-ant-bg rounded-md transition-colors">
+        <div class="flex items-center gap-3 w-full lg:w-auto">
+            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden text-ant-textSecondary p-1 hover:bg-ant-bg rounded-md transition-colors mr-2">
                 <span class="material-symbols-outlined text-[24px]">menu</span>
             </button>
-            <span class="material-symbols-outlined text-ant-textSecondary hidden lg:block">menu</span>
-            <h1 class="text-base md:text-lg font-bold text-ant-text truncate max-w-[150px] md:max-w-none">{{ $pageTitle ?? 'Dashboard' }}</h1>
+            <div class="flex-grow lg:flex-grow-0"></div>
         </div>
         <div class="flex items-center gap-6">
             {{-- NOTIFICATION BELL --}}
@@ -290,7 +248,7 @@
             <div @click="open = !open" class="flex items-center gap-4 cursor-pointer hover:bg-ant-bg/50 px-3 py-2 rounded-lg transition-all">
                 <div class="text-right">
                     <p class="text-sm font-bold text-ant-text leading-none">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] uppercase tracking-widest text-ant-textSecondary mt-1">Administrator</p>
+                    <p class="text-[10px] uppercase tracking-widest text-ant-textSecondary mt-1">Tamu Member</p>
                 </div>
                 <div class="w-10 h-10 rounded-full bg-ant-primary flex items-center justify-center text-white font-bold text-sm shadow-md">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -320,18 +278,26 @@
                 </div>
 
                 <div class="p-2">
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
+                    <a href="{{ route('tamu.dashboard') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
                         <span class="material-symbols-outlined text-[18px] text-ant-textSecondary">dashboard</span>
                         <span class="text-sm text-ant-text">Dashboard</span>
                     </a>
-                    <a href="{{ route('admin.profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
+                    <a href="{{ route('tamu.kamar.list') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
+                        <span class="material-symbols-outlined text-[18px] text-ant-textSecondary">search</span>
+                        <span class="text-sm text-ant-text">Cari Kamar</span>
+                    </a>
+                    <a href="{{ route('tamu.orders.history') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
+                        <span class="material-symbols-outlined text-[18px] text-ant-textSecondary">history</span>
+                        <span class="text-sm text-ant-text">Riwayat</span>
+                    </a>
+                    <a href="{{ route('tamu.profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-ant-bg transition-colors">
                         <span class="material-symbols-outlined text-[18px] text-ant-textSecondary">manage_accounts</span>
                         <span class="text-sm text-ant-text">Pengaturan Profil</span>
                     </a>
                 </div>
 
                 <div class="p-2 border-t border-ant-borderSplit">
-                    <button onclick="confirmLogout('admin')" type="button" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-50 transition-colors text-left">
+                    <button onclick="confirmLogout('tamu')" type="button" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-50 transition-colors text-left">
                         <span class="material-symbols-outlined text-[18px] text-red-600">logout</span>
                         <span class="text-sm text-red-600 font-medium">Keluar</span>
                     </button>
@@ -343,9 +309,9 @@
     {{-- BAGIAN KONTEN UTAMA --}}
     <main class="ant-layout-content">
         <div class="p-4 md:p-8">
-            {{-- Breadcrumb --}}
+            {{-- Breadcrumb (Static example for AntD Look) --}}
             <div class="flex items-center gap-2 text-xs md:text-sm text-ant-textSecondary mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                <span>Admin</span>
+                <span>App</span>
                 <span class="text-[10px]">/</span>
                 <span class="text-ant-text">{{ Str::title(request()->segment(2) ?? 'Dashboard') }}</span>
             </div>
@@ -405,3 +371,4 @@
 
 </body>
 </html>
+

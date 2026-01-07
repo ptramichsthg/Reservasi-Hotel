@@ -163,11 +163,15 @@
 
     {{-- Hero Content --}}
     <div class="relative z-10 text-center text-white px-6 fade-slide">
-        <h1 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-300 to-cyan-200 bg-clip-text text-transparent leading-tight">
+        <h1 class="text-4xl md:text-7xl font-black bg-gradient-to-r from-blue-300 to-cyan-200 bg-clip-text text-transparent leading-tight">
             Blue Haven Hotel
         </h1>
-        <p class="text-2xl md:text-4xl font-bold text-white mt-4">
-            Modern • Premium • Futuristik
+        <p class="text-xl md:text-4xl font-bold text-white mt-4 flex items-center justify-center gap-3">
+            <span>Modern</span>
+            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+            <span>Premium</span>
+            <span class="w-1.5 h-1.5 bg-cyan-400 rounded-full"></span>
+            <span>Futuristik</span>
         </p>
 
         <p class="mt-6 text-lg md:text-2xl max-w-3xl mx-auto text-blue-100">
@@ -175,7 +179,7 @@
         </p>
 
         <a href="{{ route('login') }}"
-           class="btn-primary mt-10 inline-block px-12 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl relative z-10"
+           class="mt-10 inline-block px-8 md:px-12 py-4 bg-gradient-to-r from-ant-primary to-blue-600 text-white rounded-xl font-bold text-base md:text-lg glass-vibrant shadow-2xl shadow-blue-500/20 hover:scale-105 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 active:scale-95 relative z-10"
            aria-label="Mulai booking hotel sekarang">
             Mulai Booking Sekarang
         </a>
@@ -183,9 +187,7 @@
         {{-- Scroll Indicator --}}
         <div class="mt-16 animate-bounce">
             <a href="#fitur" aria-label="Scroll ke fitur">
-                <svg class="w-6 h-6 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                </svg>
+                <span class="material-symbols-outlined text-white text-[24px]">keyboard_arrow_down</span>
             </a>
         </div>
     </div>
@@ -206,9 +208,7 @@
         {{-- Card 1 --}}
         <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="100">
             <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                </svg>
+                <span class="material-symbols-outlined text-white text-[32px]">auto_awesome</span>
             </div>
             <h3 class="text-2xl font-bold text-blue-900 mb-3">Kenyamanan Premium</h3>
             <p class="text-gray-700 leading-relaxed">
@@ -219,9 +219,7 @@
         {{-- Card 2 --}}
         <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="200">
             <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                </svg>
+                <span class="material-symbols-outlined text-white text-[32px]">lock</span>
             </div>
             <h3 class="text-2xl font-bold text-blue-900 mb-3">Keamanan Tinggi</h3>
             <p class="text-gray-700 leading-relaxed">
@@ -232,9 +230,7 @@
         {{-- Card 3 --}}
         <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="300">
             <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                </svg>
+                <span class="material-symbols-outlined text-white text-[32px]">lightbulb</span>
             </div>
             <h3 class="text-2xl font-bold text-blue-900 mb-3">Desain Futuristik</h3>
             <p class="text-gray-700 leading-relaxed">
@@ -245,7 +241,7 @@
 </section>
 
 {{-- STATS SECTION --}}
-<section class="max-w-7xl mx-auto px-6 py-20">
+<section class="max-w-7xl mx-auto px-6 py-12">
     <div class="glass p-12 rounded-3xl" data-aos="zoom-in">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div data-aos="fade-up" data-aos-delay="100">
@@ -261,7 +257,10 @@
                 <div class="text-gray-700 mt-2">Layanan</div>
             </div>
             <div data-aos="fade-up" data-aos-delay="400">
-                <div class="text-4xl font-black text-blue-700">4.9★</div>
+                <div class="text-4xl font-black text-blue-700 flex items-center justify-center gap-1">
+                    4.9
+                    <span class="material-symbols-outlined text-yellow-500 text-[32px] font-black">grade</span>
+                </div>
                 <div class="text-gray-700 mt-2">Rating</div>
             </div>
         </div>
@@ -276,7 +275,7 @@
     </p>
 
     <a href="{{ route('register') }}"
-       class="pulse-btn mt-8 inline-block px-14 py-4 bg-white text-blue-800 font-bold text-xl rounded-3xl hover:scale-110 transition shadow-2xl"
+       class="pulse-btn mt-8 inline-block px-10 md:px-14 py-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold text-lg md:text-xl rounded-xl glass-vibrant border-white/40 hover:scale-110 active:scale-95 transition-all shadow-xl shadow-cyan-500/20"
        aria-label="Daftar untuk membuat reservasi">
         Daftar Sekarang
     </a>
@@ -297,14 +296,14 @@
                 Hotel futuristik dengan kenyamanan premium dan layanan profesional yang siap melayani Anda 24/7.
             </p>
             <div class="flex gap-4 mt-6">
-                <a href="#" aria-label="Facebook" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <a href="#" aria-label="Facebook" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition text-sm font-bold">
+                    f
                 </a>
                 <a href="#" aria-label="Instagram" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <span class="material-symbols-outlined text-[20px]">photo_camera</span>
                 </a>
-                <a href="#" aria-label="Twitter" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                <a href="#" aria-label="Twitter" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition text-sm font-bold">
+                    X
                 </a>
             </div>
         </div>
@@ -312,20 +311,20 @@
         <div data-aos="fade-right" data-aos-delay="200">
             <h3 class="text-lg font-semibold mb-4 text-cyan-300">Navigasi</h3>
             <ul class="space-y-2 text-sm">
-                <li><a href="/">Home</a></li>
-                <li><a href="#fitur">Features</a></li>
-                <li><a href="#cta">Reservation</a></li>
+                <li><a href="/">Beranda</a></li>
+                <li><a href="#fitur">Fitur</a></li>
+                <li><a href="#cta">Reservasi</a></li>
             </ul>
         </div>
 
         <div data-aos="fade-right" data-aos-delay="300">
             <h3 class="text-lg font-semibold mb-4 text-cyan-300">Layanan</h3>
             <ul class="space-y-2 text-sm">
-                <li>Premium Room</li>
-                <li>24/7 Security</li>
-                <li>Smart Technology</li>
-                <li>Room Service</li>
-                <li>Concierge</li>
+                <li>Kamar Premium</li>
+                <li>Keamanan 24/7</li>
+                <li>Teknologi Pintar</li>
+                <li>Layanan Kamar</li>
+                <li>Resepsionis</li>
             </ul>
         </div>
 
@@ -348,15 +347,16 @@
         </div>
     </div>
 
+    {{-- Copyright and Legal Links --}}
     <div class="border-t border-white/10">
         <div class="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between items-center text-sm">
-            <span>© {{ date('Y') }} Blue Haven Hotel. All rights reserved.</span>
+            <span>© {{ date('Y') }} Blue Haven Hotel. Hak cipta dilindungi undang-undang.</span>
             <div class="flex gap-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-cyan-300">Privacy Policy</a>
+                <a href="#" class="hover:text-cyan-300">Kebijakan Privasi</a>
                 <span>•</span>
-                <a href="#" class="hover:text-cyan-300">Terms of Service</a>
+                <a href="#" class="hover:text-cyan-300">Syarat & Ketentuan</a>
                 <span>•</span>
-                <a href="#" class="hover:text-cyan-300">Help Center</a>
+                <a href="#" class="hover:text-cyan-300">Pusat Bantuan</a>
             </div>
         </div>
     </div>

@@ -14,14 +14,14 @@ class TamuController extends Controller
         $this->middleware(['auth', 'role:tamu']);
     }
 
-    // 🟢 Daftar kamar tersedia
+    // Daftar kamar tersedia
     public function daftarKamar()
     {
         $kamar = Kamars::where('status', 'available')->get();
         return view('tamu.daftar_kamar', compact('kamar'));
     }
 
-    // 🟢 Kamar yang sudah dipesan user login
+    // Kamar yang sudah dipesan user login
     public function kamarSaya()
     {
         $pemesanan = Reservasi::with('kamar')
@@ -31,7 +31,7 @@ class TamuController extends Controller
         return view('tamu.kamar_saya', compact('pemesanan'));
     }
 
-    // 🟢 Dashboard tamu
+    // Dashboard tamu
     public function dashboard()
     {
         $userId = Auth::id();
@@ -57,7 +57,7 @@ class TamuController extends Controller
             ->distinct('id_kamar')
             ->count('id_kamar');
 
-        // 📊 Grafik: 7 hari terakhir
+        // Grafik: 7 hari terakhir
         $chartData = Reservasi::selectRaw('DATE(created_at) as tanggal, COUNT(*) as total')
             ->where('id_user', $userId)
             ->whereDate('created_at', '>=', now()->subDays(7))
@@ -73,7 +73,7 @@ class TamuController extends Controller
             $total[] = $row->total;
         }
 
-        // 📊 Grafik: Jenis kamar
+        // Grafik: Jenis kamar
         $chartJenis = Reservasi::where('reservasis.id_user', $userId)
             ->join('kamars', 'reservasis.id_kamar', '=', 'kamars.id_kamar')
             ->selectRaw('kamars.tipe_kamar as tipe, COUNT(*) as total')

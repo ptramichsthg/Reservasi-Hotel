@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Login ke Blue Haven Hotel - Hotel modern dengan kenyamanan premium">
-    <title>Login - Blue Haven Hotel</title>
+    <title>Masuk - Blue Haven Hotel</title>
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         * {
@@ -200,14 +206,12 @@
     <!-- Logo/Title -->
     <div class="text-center mb-8">
         <div class="logo-pulse inline-block">
-            <svg class="w-16 h-16 mx-auto mb-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
+            <span class="material-symbols-outlined text-blue-600" style="font-size: 64px;">hotel</span>
         </div>
         <h2 class="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-400 text-transparent bg-clip-text">
             Selamat Datang
         </h2>
-        <p class="text-gray-700 mt-2 font-medium">Login ke Blue Haven Hotel</p>
+        <p class="text-gray-700 mt-2 font-medium">Masuk ke Blue Haven Hotel</p>
     </div>
 
     {{-- ERROR SESSION --}}
@@ -237,10 +241,8 @@
         {{-- EMAIL FIELD --}}
         <div>
             <label for="email" class="block font-semibold mb-2 text-gray-800">
-                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                Email Address
+                <span class="material-symbols-outlined text-[16px] align-middle mr-1">mail</span>
+                Alamat Email
             </label>
             <input type="email"
                    name="email"
@@ -350,6 +352,7 @@
     </div>
 </div>
 
+{{-- BAGIAN SKRIP JAVASCRIPT --}}
 <script>
     function togglePassword() {
         const input = document.getElementById('password');
@@ -383,6 +386,30 @@
             document.getElementById('password').focus();
         }
     });
+
+    // Handle Success Session with SweetAlert2
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            confirmButtonColor: '#3b82f6',
+            timer: 3000,
+            timerProgressBar: true
+        });
+    @endif
+
+    // Handle Error Session with SweetAlert2 (Optional, keeping the old one too for safety)
+    @if(session('error'))
+        /* 
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ session('error') }}",
+            confirmButtonColor: '#ef4444'
+        });
+        */
+    @endif
 </script>
 
 </body>

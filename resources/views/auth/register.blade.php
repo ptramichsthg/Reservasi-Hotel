@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Registrasi akun Blue Haven Hotel">
-    <title>Register - Blue Haven Hotel</title>
+    <title>Daftar - Blue Haven Hotel</title>
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Material Symbols Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
         * { box-sizing: border-box; }
@@ -90,7 +93,7 @@
 
 <div class="glass rgb-border w-full max-w-md p-10 shadow-2xl fade-in">
 
-    <!-- TITLE -->
+    <!-- BAGIAN JUDUL DAN HEADER FORM -->
     <div class="text-center mb-8">
         <h2 class="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-400 text-transparent bg-clip-text">
             Buat Akun
@@ -100,25 +103,25 @@
         </p>
     </div>
 
-    {{-- SESSION ERROR --}}
+    {{-- PESAN ERROR SESI --}}
     @if (session('error'))
         <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded-xl mb-4 text-sm font-semibold">
             {{ session('error') }}
         </div>
     @endif
 
-    {{-- VALIDATION ERROR --}}
+    {{-- PESAN ERROR VALIDASI FORM --}}
     @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded-xl mb-4 text-sm">
             {{ $errors->first() }}
         </div>
     @endif
 
-    <!-- FORM -->
+    <!-- FORM PENDAFTARAN -->
     <form method="POST" action="{{ route('register') }}" class="space-y-6">
         @csrf
 
-        {{-- NAME --}}
+        {{-- INPUT: NAMA LENGKAP --}}
         <div>
             <label class="block font-semibold mb-2 text-gray-800">Nama Lengkap</label>
             <input type="text" name="name" required
@@ -128,7 +131,7 @@
                    placeholder="Nama lengkap">
         </div>
 
-        {{-- EMAIL --}}
+        {{-- INPUT: EMAIL --}}
         <div>
             <label class="block font-semibold mb-2 text-gray-800">Email</label>
             <input type="email" name="email" required
@@ -138,7 +141,7 @@
                    placeholder="you@email.com">
         </div>
 
-        {{-- PASSWORD --}}
+        {{-- INPUT: PASSWORD --}}
         <div>
             <label class="block font-semibold mb-2 text-gray-800">Password</label>
             <div class="relative">
@@ -163,7 +166,7 @@
             </div>
         </div>
 
-        {{-- CONFIRM PASSWORD --}}
+        {{-- INPUT: KONFIRMASI PASSWORD --}}
         <div>
             <label class="block font-semibold mb-2 text-gray-800">Konfirmasi Password</label>
             <div class="relative">
@@ -196,7 +199,7 @@
         </button>
     </form>
 
-    {{-- LINK LOGIN --}}
+    {{-- TAUTAN KE HALAMAN LOGIN --}}
     <p class="text-center mt-6 font-medium text-gray-700">
         Sudah punya akun?
         <a href="{{ route('login') }}" class="text-purple-700 font-bold hover:underline">
