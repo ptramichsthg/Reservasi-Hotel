@@ -3,214 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Registrasi akun Blue Haven Hotel">
-    <title>Register - Blue Haven Hotel</title>
+    <meta name="description" content="Daftar akun Blue Haven Hotel">
+    <title>Daftar - Blue Haven Hotel</title>
+    <link rel="icon" href="data:,">
 
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        * { box-sizing: border-box; }
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        body {
-            background: linear-gradient(135deg, #3b82f6, #ffffff, #a855f7);
-            background-size: 400% 400%;
-            animation: gradientFlow 10s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
-        @keyframes gradientFlow {
+        .gradient-bright {
+            background: linear-gradient(135deg, #fae8ff 0%, #dbeafe 25%, #f3e8ff 50%, #e0f2fe 75%, #fce7f3 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-        }
-
-        .rgb-border {
-            position: relative;
-        }
-
-        .rgb-border::before {
-            content: "";
+        .blob {
             position: absolute;
-            inset: 0;
-            padding: 2px;
-            border-radius: inherit;
-            background: linear-gradient(120deg,#3b82f6,#22d3ee,#a855f7,#3b82f6);
-            background-size: 300% 300%;
-            animation: rgbFlow 6s linear infinite;
-            -webkit-mask:
-                linear-gradient(#fff 0 0) content-box,
-                linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: blobFloat 15s infinite ease-in-out;
             pointer-events: none;
         }
 
-        @keyframes rgbFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .blob-1 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            top: -100px;
+            right: -100px;
         }
 
-        .fade-in {
-            animation: fadeIn .6s ease-out;
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #60a5fa, #34d399);
+            bottom: -80px;
+            left: -80px;
+            animation-delay: -5s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-modern {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-modern:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.4);
+        }
+
+        .link-animated::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 50%;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            transition: all 0.3s ease;
+        }
+
+        .link-animated:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .fade-up {
+            animation: fadeUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .input-field:focus {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59,130,246,.3);
-        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(59,130,246,.4);
+        .eye-btn:hover {
+            color: #8b5cf6;
+            transform: scale(1.1);
         }
     </style>
 </head>
 
-<body>
+<body class="min-h-screen gradient-bright overflow-hidden">
 
-<div class="glass rgb-border w-full max-w-md p-10 shadow-2xl fade-in">
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
 
-    <!-- TITLE -->
-    <div class="text-center mb-8">
-        <h2 class="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-400 text-transparent bg-clip-text">
-            Buat Akun
-        </h2>
-        <p class="text-gray-700 mt-2 font-medium">
-            Daftar Akun Blue Haven Hotel
+<div class="min-h-screen flex items-center justify-center p-4 relative z-10">
+    
+    <div class="glass-card w-full max-w-md p-8 md:p-10 relative overflow-hidden">
+        
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500"></div>
+
+        <div class="text-center mb-8 fade-up">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-400 rounded-2xl mb-4 shadow-lg shadow-purple-500/30">
+                <x-heroicon-o-user-plus class="w-8 h-8 text-white" />
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Buat Akun</h1>
+            <p class="text-gray-500 text-sm">Daftar untuk memesan kamar di Blue Haven Hotel</p>
+        </div>
+
+        @if (session('error'))
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-center gap-3 fade-up">
+                <x-heroicon-o-exclamation-circle class="w-5 h-5 text-red-500 flex-shrink-0" />
+                <span class="text-sm font-medium">{{ session('error') }}</span>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 flex items-center gap-3 fade-up">
+                <x-heroicon-o-exclamation-circle class="w-5 h-5 text-red-500 flex-shrink-0" />
+                <span class="text-sm font-medium">{{ $errors->first() }}</span>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('register') }}" class="space-y-5">
+            @csrf
+
+            <div class="fade-up delay-1">
+                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <x-heroicon-o-user class="w-5 h-5" />
+                    </span>
+                    <input type="text" name="name" id="name" required value="{{ old('name') }}" placeholder="Nama lengkap Anda"
+                           class="input-modern w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none text-gray-700 placeholder-gray-400 bg-white/50">
+                </div>
+            </div>
+
+            <div class="fade-up delay-2">
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <x-heroicon-o-envelope class="w-5 h-5" />
+                    </span>
+                    <input type="email" name="email" id="email" required value="{{ old('email') }}" placeholder="nama@email.com"
+                           class="input-modern w-full pl-12 pr-4 py-3.5 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none text-gray-700 placeholder-gray-400 bg-white/50">
+                </div>
+            </div>
+
+            <div class="fade-up delay-3">
+                <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <x-heroicon-o-lock-closed class="w-5 h-5" />
+                    </span>
+                    <input type="password" name="password" id="password" required placeholder="Minimal 8 karakter"
+                           class="input-modern w-full pl-12 pr-12 py-3.5 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none text-gray-700 placeholder-gray-400 bg-white/50">
+                    <button type="button" onclick="togglePassword('password', 'eye1')" class="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all">
+                        <x-heroicon-o-eye id="eye1" class="w-5 h-5" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="fade-up delay-4">
+                <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        <x-heroicon-o-key class="w-5 h-5" />
+                    </span>
+                    <input type="password" name="password_confirmation" id="password_confirmation" required placeholder="Ulangi password"
+                           class="input-modern w-full pl-12 pr-12 py-3.5 rounded-xl border border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 outline-none text-gray-700 placeholder-gray-400 bg-white/50">
+                    <button type="button" onclick="togglePassword('password_confirmation', 'eye2')" class="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-all">
+                        <x-heroicon-o-eye id="eye2" class="w-5 h-5" />
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-gradient w-full py-4 rounded-xl text-white font-bold text-base tracking-wide fade-up delay-5">
+                Daftar Sekarang
+            </button>
+        </form>
+
+        <div class="relative my-8 fade-up">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-200"></div>
+            </div>
+            <div class="relative flex justify-center">
+                <span class="px-4 bg-white/80 text-gray-400 text-sm">atau</span>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 fade-up">
+            Sudah punya akun?
+            <a href="{{ route('login') }}" class="link-animated relative font-bold text-blue-600 ml-1">Login</a>
         </p>
+
+        <div class="text-center mt-6 fade-up">
+            <a href="/" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-purple-600 transition-colors">
+                <x-heroicon-o-arrow-left class="w-4 h-4" />
+                Kembali ke Home
+            </a>
+        </div>
     </div>
-
-    {{-- SESSION ERROR --}}
-    @if (session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded-xl mb-4 text-sm font-semibold">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    {{-- VALIDATION ERROR --}}
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded-xl mb-4 text-sm">
-            {{ $errors->first() }}
-        </div>
-    @endif
-
-    <!-- FORM -->
-    <form method="POST" action="{{ route('register') }}" class="space-y-6">
-        @csrf
-
-        {{-- NAME --}}
-        <div>
-            <label class="block font-semibold mb-2 text-gray-800">Nama Lengkap</label>
-            <input type="text" name="name" required
-                   value="{{ old('name') }}"
-                   class="input-field w-full p-3 rounded-xl border border-gray-300
-                          focus:ring-2 focus:ring-blue-500 outline-none transition"
-                   placeholder="Nama lengkap">
-        </div>
-
-        {{-- EMAIL --}}
-        <div>
-            <label class="block font-semibold mb-2 text-gray-800">Email</label>
-            <input type="email" name="email" required
-                   value="{{ old('email') }}"
-                   class="input-field w-full p-3 rounded-xl border border-gray-300
-                          focus:ring-2 focus:ring-blue-500 outline-none transition"
-                   placeholder="you@email.com">
-        </div>
-
-        {{-- PASSWORD --}}
-        <div>
-            <label class="block font-semibold mb-2 text-gray-800">Password</label>
-            <div class="relative">
-                <input type="password" name="password" id="password" required
-                       class="input-field w-full p-3 pr-12 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 outline-none transition"
-                       placeholder="Password">
-
-                <button type="button" onclick="togglePassword('password','eye1')"
-                        class="absolute inset-y-0 right-3 flex items-center text-gray-600">
-                    <svg id="eye1" class="w-6 h-6" fill="none" stroke="currentColor"
-                         viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5
-                                 c4.477 0 8.268 2.943 9.542 7
-                                 -1.274 4.057-5.065 7-9.542 7
-                                 -4.477 0-8.268-2.943-9.542-7z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        {{-- CONFIRM PASSWORD --}}
-        <div>
-            <label class="block font-semibold mb-2 text-gray-800">Konfirmasi Password</label>
-            <div class="relative">
-                <input type="password" name="password_confirmation" id="password_confirmation" required
-                       class="input-field w-full p-3 pr-12 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 outline-none transition"
-                       placeholder="Ulangi password">
-
-                <button type="button" onclick="togglePassword('password_confirmation','eye2')"
-                        class="absolute inset-y-0 right-3 flex items-center text-gray-600">
-                    <svg id="eye2" class="w-6 h-6" fill="none" stroke="currentColor"
-                         viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5
-                                 c4.477 0 8.268 2.943 9.542 7
-                                 -1.274 4.057-5.065 7-9.542 7
-                                 -4.477 0-8.268-2.943-9.542-7z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        {{-- SUBMIT --}}
-        <button type="submit"
-                class="btn-primary w-full py-3 rounded-xl text-white font-bold
-                       bg-gradient-to-r from-blue-600 to-blue-700 transition">
-            Daftar Sekarang
-        </button>
-    </form>
-
-    {{-- LINK LOGIN --}}
-    <p class="text-center mt-6 font-medium text-gray-700">
-        Sudah punya akun?
-        <a href="{{ route('login') }}" class="text-purple-700 font-bold hover:underline">
-            Login
-        </a>
-    </p>
 </div>
 
 <script>
-    function togglePassword(id, eye) {
-        const input = document.getElementById(id);
-        const icon = document.getElementById(eye);
-        input.type = input.type === "password" ? "text" : "password";
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('name').focus();
+    });
 </script>
 
 </body>

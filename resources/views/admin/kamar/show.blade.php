@@ -4,8 +4,9 @@
 
 <div class="max-w-4xl mx-auto p-8 glass rounded-3xl shadow-xl">
 
-    <h1 class="text-3xl font-bold text-blue-900 mb-6">
-        🏨 Detail Kamar: {{ $kamar->tipe_kamar }}
+    <h1 class="text-3xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+        <span class="material-symbols-outlined text-[32px] text-ant-primary">domain</span>
+        Detail Kamar: {{ $kamar->tipe_kamar }}
     </h1>
 
     {{-- FOTO UTAMA --}}
@@ -58,16 +59,22 @@
 
     {{-- DESKRIPSI --}}
     <div class="mt-8 p-5 bg-white/70 rounded-xl shadow">
-        <h2 class="text-xl font-semibold mb-2">📄 Deskripsi</h2>
+        <h2 class="text-xl font-semibold mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-ant-textSecondary">description</span>
+            Deskripsi
+        </h2>
 
         <p class="text-gray-800">
             {{ $kamar->deskripsi ?? 'Tidak ada deskripsi.' }}
         </p>
     </div>
 
-    {{-- FASILITAS --}}
+    {{-- Fasilitas --}}
     <div class="mt-8 p-5 bg-white/70 rounded-xl shadow">
-        <h2 class="text-xl font-semibold mb-3">🛠️ Fasilitas</h2>
+        <h2 class="text-xl font-semibold mb-3 flex items-center gap-2">
+            <span class="material-symbols-outlined text-ant-primary">build</span>
+            Fasilitas
+        </h2>
 
         @php
             // Accessor getFasilitasAttribute() sudah mengembalikan array
@@ -81,23 +88,24 @@
                 @endforeach
             </ul>
         @else
-            <p class="text-gray-600">Tidak ada fasilitas dicantumkan.</p>
+            <p class="text-gray-600">Tidak ada<span class="material-symbols-outlined text-[18px]">build</span> Fasilitas dicantumkan.</p>
         @endif
     </div>
 
-    {{-- TOMBOL AKSI --}}
     <div class="mt-10 flex justify-between">
 
         <a href="{{ route('admin.kamar.index') }}"
            class="px-5 py-3 bg-gray-300 text-gray-800
-                  rounded-xl hover:bg-gray-400 transition">
-           ← Kembali
+                  rounded-xl hover:bg-gray-400 transition flex items-center gap-2">
+           <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+           Kembali
         </a>
 
         <a href="{{ route('admin.kamar.edit', $kamar->id_kamar) }}"
            class="px-5 py-3 bg-blue-600 text-white
-                  rounded-xl hover:bg-blue-700 transition">
-           ✏ Edit Kamar
+                  rounded-xl hover:bg-blue-700 transition flex items-center gap-2">
+           <span class="material-symbols-outlined text-[18px]">edit</span>
+           Edit Kamar
         </a>
 
     </div>
@@ -105,3 +113,6 @@
 </div>
 
 @endsection
+
+
+

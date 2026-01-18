@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\Kamars;
 
 class KamarController extends Controller
 {
     // =====================================================
-    // 🟢 1. LIST KAMAR UNTUK TAMU (FILTER + SEARCH)
+    // 1. LIST KAMAR UNTUK TAMU (FILTER + SEARCH)
     // =====================================================
     public function listKamarTamu(Request $request)
     {
         $query = Kamars::where('status', 'available');
 
-        // 🔍 Search keyword
+        // Pencarian berdasarkan keyword
         if ($request->keyword) {
             $query->where(function ($q) use ($request) {
                 $q->where('tipe_kamar', 'like', '%' . $request->keyword . '%')
@@ -22,7 +23,7 @@ class KamarController extends Controller
             });
         }
 
-        // 🎚️ Filter harga
+        // Filter berdasarkan harga
         if ($request->min_price) {
             $query->where('harga', '>=', $request->min_price);
         }
@@ -31,19 +32,19 @@ class KamarController extends Controller
             $query->where('harga', '<=', $request->max_price);
         }
 
-        // 🏷️ Filter tipe kamar
+        // Filter berdasarkan tipe kamar
         if ($request->tipe_kamar) {
             $query->where('tipe_kamar', $request->tipe_kamar);
         }
 
-        // 🛠️ Filter fasilitas (JSON)
+        // Filter berdasarkan fasilitas
         if ($request->fasilitas && is_array($request->fasilitas)) {
             foreach ($request->fasilitas as $f) {
                 $query->whereJsonContains('fasilitas', $f);
             }
         }
 
-        // 📌 Sorting
+        // Pengurutan data
         match ($request->sort) {
             'termurah' => $query->orderBy('harga', 'asc'),
             'termahal' => $query->orderBy('harga', 'desc'),
@@ -57,7 +58,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 2. LIST KAMAR ADMIN
+    // 2. LIST KAMAR ADMIN
     // =====================================================
     public function index(Request $request)
     {
@@ -77,7 +78,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 3. FORM TAMBAH KAMAR
+    // 3. FORM TAMBAH KAMAR
     // =====================================================
     public function create()
     {
@@ -85,7 +86,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 4. SIMPAN KAMAR BARU (FIX TOTAL)
+    // 4. SIMPAN KAMAR BARU
     // =====================================================
     public function store(Request $request)
     {
@@ -106,7 +107,7 @@ class KamarController extends Controller
             'foto_utama' => 'required|image|mimes:jpg,jpeg,png,webp,avif|max:8192',
         ]);
 
-        // Upload foto
+        // Proses upload foto
         $file = $request->file('foto_utama');
         $namaFile = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path('uploads/kamar'), $namaFile);
@@ -118,7 +119,7 @@ class KamarController extends Controller
             'status'     => $request->status,
             'foto_utama' => $namaFile,
             'deskripsi'  => $request->deskripsi,
-            'fasilitas'  => $request->fasilitas ?? [], // ✅ TANPA json_encode
+            'fasilitas'  => $request->fasilitas ?? [], // Otomatis di-cast ke JSON
         ]);
 
         return redirect()
@@ -127,7 +128,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 5. FORM EDIT KAMAR
+    // 5. FORM EDIT KAMAR
     // =====================================================
     public function edit($id)
     {
@@ -136,7 +137,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 6. UPDATE KAMAR (FIX TOTAL)
+    // 6. UPDATE KAMAR
     // =====================================================
     public function update(Request $request, $id)
     {
@@ -160,8 +161,14 @@ class KamarController extends Controller
         $kamar = Kamars::findOrFail($id);
 
         if ($request->hasFile('foto_utama')) {
-            if ($kamar->foto_utama && file_exists(public_path('uploads/kamar/' . $kamar->foto_utama))) {
-                unlink(public_path('uploads/kamar/' . $kamar->foto_utama));
+            // Hapus foto lama dengan penanganan error
+            try {
+                if ($kamar->foto_utama && file_exists(public_path('uploads/kamar/' . $kamar->foto_utama))) {
+                    unlink(public_path('uploads/kamar/' . $kamar->foto_utama));
+                }
+            } catch (\Exception $e) {
+                Log::error('Gagal menghapus foto lama: ' . $e->getMessage());
+                // Lanjutkan eksekusi meskipun gagal hapus
             }
 
             $file = $request->file('foto_utama');
@@ -185,14 +192,20 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 7. HAPUS KAMAR
+    // 7. HAPUS KAMAR
     // =====================================================
     public function destroy($id)
     {
         $kamar = Kamars::findOrFail($id);
 
-        if ($kamar->foto_utama && file_exists(public_path('uploads/kamar/' . $kamar->foto_utama))) {
-            unlink(public_path('uploads/kamar/' . $kamar->foto_utama));
+        // Hapus file foto dengan penanganan error
+        try {
+            if ($kamar->foto_utama && file_exists(public_path('uploads/kamar/' . $kamar->foto_utama))) {
+                unlink(public_path('uploads/kamar/' . $kamar->foto_utama));
+            }
+        } catch (\Exception $e) {
+            Log::error('Gagal menghapus foto: ' . $e->getMessage());
+            // Lanjutkan proses penghapusan data
         }
 
         $kamar->delete();
@@ -203,7 +216,7 @@ class KamarController extends Controller
     }
 
     // =====================================================
-    // 🟢 8. DETAIL KAMAR ADMIN
+    // 8. DETAIL KAMAR ADMIN
     // =====================================================
     public function show($id)
     {

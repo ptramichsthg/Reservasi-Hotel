@@ -21,7 +21,7 @@
 
 <div class="relative" x-data="{ open: false }">
 
-    {{-- 🔔 ICON NOTIFIKASI --}}
+    {{-- ICON NOTIFIKASI --}}
     <button
         @click="open = !open"
         class="relative focus:outline-none"
@@ -40,7 +40,7 @@
                      m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
         </svg>
 
-        {{-- 🔴 BADGE JUMLAH BELUM DIBACA --}}
+        {{-- BADGE JUMLAH BELUM DIBACA --}}
         @if($unreadCount > 0)
             <span
                 class="absolute -top-1 -right-1 bg-red-500 text-white
@@ -51,7 +51,7 @@
         @endif
     </button>
 
-    {{-- 📥 DROPDOWN NOTIFIKASI --}}
+    {{-- DROPDOWN NOTIFIKASI --}}
     <div
         x-show="open"
         x-transition

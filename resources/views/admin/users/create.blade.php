@@ -2,66 +2,160 @@
 
 @section('content')
 
-<div class="min-h-screen p-10 bg-gradient-to-br from-blue-50 via-white to-purple-100">
-
-    <div class="max-w-xl mx-auto glass backdrop-blur-xl p-8 rounded-3xl shadow-2xl">
-
-        <h1 class="text-3xl font-extrabold text-blue-900 mb-6 drop-shadow">
-            + Tambah Admin Baru
-        </h1>
-
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 px-4 py-3 rounded-xl mb-4">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
-        <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-5">
-            @csrf
-
-            <div>
-                <label class="block text-gray-800 font-semibold mb-1">Nama Admin</label>
-                <input type="text" name="name" value="{{ old('name') }}" required
-                       class="w-full px-4 py-3 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div>
-                <label class="block text-gray-800 font-semibold mb-1">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required
-                       class="w-full px-4 py-3 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div>
-                <label class="block text-gray-800 font-semibold mb-1">Password</label>
-                <input type="password" name="password" required
-                       class="w-full px-4 py-3 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div>
-                <label class="block text-gray-800 font-semibold mb-1">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation" required
-                       class="w-full px-4 py-3 rounded-xl border border-gray-300
-                              focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div class="flex justify-between items-center mt-6">
-                <a href="{{ route('admin.users.index') }}"
-                   class="text-gray-600 hover:text-gray-800">
-                    ← Kembali
-                </a>
-
-                <button type="submit"
-                        class="px-5 py-3 bg-blue-600 text-white rounded-xl font-semibold
-                               shadow hover:bg-blue-700 hover:-translate-y-0.5 transition-all">
-                    Simpan Admin
-                </button>
-            </div>
-        </form>
+<div class="max-w-2xl mx-auto py-8">
+    {{-- BREADCRUMBS --}}
+    <div class="flex items-center gap-2 text-ant-textSecondary text-xs mb-4">
+        <a href="{{ route('admin.dashboard') }}" class="hover:text-ant-primary transition-colors">Dashboard</a>
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        <a href="{{ route('admin.users.index') }}" class="hover:text-ant-primary transition-colors">Manajemen User</a>
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span class="text-ant-text font-medium">Tambah User</span>
     </div>
 
+    {{-- HEADER --}}
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-ant-text flex items-center gap-3">
+            <span class="material-symbols-outlined text-ant-primary text-[28px]">person_add</span>
+            Tambah User Baru
+        </h1>
+        <p class="text-sm text-ant-textSecondary mt-1">Buat akun administrator baru atau tamu member secara manual.</p>
+    </div>
+
+    {{-- FORM CARD --}}
+    <div class="ant-card bg-white shadow-sm border border-ant-borderSplit overflow-hidden animate-fade-in">
+        <div class="p-8">
+            {{-- ERROR MESSAGES --}}
+            @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg flex items-start gap-3">
+                    <span class="material-symbols-outlined text-red-500 mt-0.5">error</span>
+                    <div>
+                        <p class="text-sm font-bold text-red-800 mb-1">Terjadi Kesalahan:</p>
+                        <ul class="list-disc list-inside text-xs text-red-700 space-y-0.5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6">
+                @csrf
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {{-- NAMA --}}
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-ant-text flex items-center gap-2">
+                            Nama Lengkap
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">person</span>
+                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Ahmad Fauzi"
+                                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
+                        </div>
+                    </div>
+
+                    {{-- EMAIL --}}
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-ant-text flex items-center gap-2">
+                            Alamat Email
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">mail</span>
+                            <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@example.com"
+                                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {{-- PASSWORD --}}
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-ant-text flex items-center gap-2">
+                            Password
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">lock</span>
+                            <input type="password" name="password" required placeholder="Minimal 5 karakter"
+                                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
+                        </div>
+                    </div>
+
+                    {{-- CONFIRM PASSWORD --}}
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold text-ant-text flex items-center gap-2">
+                            Ulangi Password
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-ant-textQuaternary text-[18px]">key</span>
+                            <input type="password" name="password_confirmation" required placeholder="Ketik ulang password"
+                                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-ant-border rounded-lg text-sm transition-all focus:border-ant-primary focus:ring-4 focus:ring-ant-primary/10 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                {{-- ROLE SELECTION --}}
+                <div class="space-y-3 p-4 bg-ant-bg/50 rounded-xl border border-ant-borderSplit/50">
+                    <label class="text-sm font-bold text-ant-text">Pilih Role Pengguna <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="role" value="tamu" class="hidden peer" checked>
+                            <div class="p-3 border-2 border-ant-borderSplit bg-white rounded-xl transition-all peer-checked:border-ant-primary peer-checked:bg-ant-primary/5 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-[20px]">person</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-ant-text group-hover:text-ant-primary transition-colors">Tamu Member</p>
+                                    <p class="text-[10px] text-ant-textSecondary leading-none">Akses pemesanan kamar</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="role" value="admin" class="hidden peer">
+                            <div class="p-3 border-2 border-ant-borderSplit bg-white rounded-xl transition-all peer-checked:border-ant-primary peer-checked:bg-ant-primary/5 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-ant-text group-hover:text-ant-primary transition-colors">Administrator</p>
+                                    <p class="text-[10px] text-ant-textSecondary leading-none">Akses penuh operasional</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                {{-- BUTTONS --}}
+                <div class="flex items-center justify-between pt-6 border-t border-ant-borderSplit">
+                    <a href="{{ route('admin.users.index') }}" 
+                       class="flex items-center gap-2 text-ant-textSecondary hover:text-ant-text text-sm font-bold transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Kembali
+                    </a>
+
+                    <button type="submit" class="ant-btn-primary h-11 px-8 shadow-lg shadow-ant-primary/20">
+                        <span class="material-symbols-outlined text-[20px]">save</span>
+                        Simpan Akun Baru
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<style>
+    @keyframes fade-in {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+        animation: fade-in 0.5s ease-out forwards;
+    }
+</style>
 
 @endsection

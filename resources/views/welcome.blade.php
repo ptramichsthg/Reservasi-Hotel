@@ -7,360 +7,549 @@
         scroll-behavior: smooth;
     }
 
-    body {
-        background: linear-gradient(135deg, #3b82f6, #ffffff, #a855f7);
+    /* Bright gradient background */
+    .gradient-bright {
+        background: linear-gradient(135deg, #dbeafe 0%, #fae8ff 25%, #e0f2fe 50%, #f3e8ff 75%, #e0f7fa 100%);
         background-size: 400% 400%;
-        animation: gradientFlow 12s ease infinite;
+        animation: gradientShift 20s ease infinite;
     }
 
-    @keyframes gradientFlow {
+    @keyframes gradientShift {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
 
-    /* Glassmorphism dengan shadow lebih tajam */
-    .glass {
-        background: rgba(255, 255, 255, 0.55);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+    /* Colorful floating blobs */
+    .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.6;
+        animation: blobFloat 15s infinite ease-in-out;
+        pointer-events: none;
+    }
+
+    .blob-1 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #60a5fa, #a78bfa);
+        top: -100px;
+        left: -100px;
+    }
+
+    .blob-2 {
+        width: 350px;
+        height: 350px;
+        background: linear-gradient(135deg, #34d399, #22d3ee);
+        bottom: -80px;
+        right: -80px;
+        animation-delay: -5s;
+    }
+
+    .blob-3 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #f472b6, #fb923c);
+        top: 50%;
+        left: 60%;
+        animation-delay: -10s;
+    }
+
+    @keyframes blobFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -40px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    /* Glass card - bright theme */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
         border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.1);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .glass:hover {
+    .glass-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 16px 48px rgba(31, 38, 135, 0.25);
-        background: rgba(255, 255, 255, 0.65);
+        box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.15);
     }
 
-    .fade-slide {
+    /* Fade animations */
+    .fade-up {
+        animation: fadeUp 0.8s ease-out forwards;
         opacity: 0;
-        transform: translateY(20px);
-        animation: fadeSlideIn 1.2s ease-out forwards;
     }
 
-    @keyframes fadeSlideIn {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .float-blob {
-        will-change: transform;
-        animation: floatBlob 10s infinite ease-in-out alternate;
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    /* Button gradient */
+    .btn-gradient {
+        background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @keyframes floatBlob {
-        0% { transform: translate(0,0) scale(1); }
-        50% { transform: translate(15px,-25px) scale(1.1); }
-        100% { transform: translate(-15px,20px) scale(0.95); }
+    .btn-gradient:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.5);
     }
 
-    /* AOS animations are handled by the library */
-
-    /* Button hover effect */
-    .btn-primary {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
+    .btn-gradient-purple {
+        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .btn-primary::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
+    .btn-gradient-purple:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.5);
     }
 
-    .btn-primary:hover::before {
-        width: 300px;
-        height: 300px;
-    }
-
-    .btn-primary:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-    }
-
-    /* Icon animation */
-    .icon-container {
-        width: 60px;
-        height: 60px;
+    /* Icon box with gradient */
+    .icon-box {
+        width: 64px;
+        height: 64px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #3b82f6, #06b6d4);
         border-radius: 16px;
-        margin-bottom: 1rem;
         transition: all 0.3s ease;
     }
 
-    .glass:hover .icon-container {
+    .glass-card:hover .icon-box {
         transform: rotate(10deg) scale(1.1);
     }
 
-    /* Parallax effect */
-    .parallax-layer {
-        transition: transform 0.3s ease-out;
-    }
-
-    /* Footer link hover */
-    footer a {
-        transition: color 0.3s ease, transform 0.3s ease;
-        display: inline-block;
-    }
-
-    footer a:hover {
-        color: #22d3ee;
-        transform: translateX(4px);
-    }
-
-    /* Loading optimization */
-    .bg-hero {
-        background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80');
-        background-size: cover;
-        background-position: center;
-    }
-
-    /* Pulse animation for CTA */
+    /* Pulse animation */
     @keyframes pulse {
-        0%, 100% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-        }
-        50% {
-            box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
-        }
+        0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+        50% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
     }
 
-    .pulse-btn {
+    .pulse-ring {
         animation: pulse 2s infinite;
+    }
+
+    /* Link hover effect */
+    .link-hover {
+        position: relative;
+    }
+
+    .link-hover::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        transition: width 0.3s ease;
+    }
+
+    .link-hover:hover::after {
+        width: 100%;
     }
 </style>
 
 {{-- HERO SECTION --}}
-<section class="relative w-full h-[90vh] flex items-center justify-center overflow-hidden" role="banner">
+<section class="relative w-full min-h-screen flex items-center justify-center overflow-hidden gradient-bright" role="banner">
 
-    {{-- Background Image with Lazy Loading --}}
-    <div class="absolute inset-0 bg-hero brightness-[0.55]" loading="lazy"></div>
-
-    {{-- Gradient Overlay --}}
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-700/30 via-cyan-500/20 to-blue-800/30 backdrop-blur-[3px]"></div>
-
-    {{-- Floating Blobs --}}
-    <div class="absolute w-80 h-80 bg-blue-400/30 rounded-full blur-[120px] -top-10 -left-10 float-blob" aria-hidden="true"></div>
-    <div class="absolute w-[500px] h-[500px] bg-cyan-300/25 rounded-full blur-[140px] bottom-0 right-10 float-blob" style="animation-delay: 1s;" aria-hidden="true"></div>
-    <div class="absolute w-72 h-72 bg-blue-500/20 rounded-full blur-[100px] top-32 right-1/3 float-blob" style="animation-delay: 2s;" aria-hidden="true"></div>
+    {{-- Colorful Blobs --}}
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
 
     {{-- Hero Content --}}
-    <div class="relative z-10 text-center text-white px-6 fade-slide">
-        <h1 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-300 to-cyan-200 bg-clip-text text-transparent leading-tight">
-            Blue Haven Hotel
+    <div class="relative z-10 text-center px-6 py-20">
+        
+        {{-- Logo --}}
+        <div class="fade-up mb-8">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-3xl shadow-2xl shadow-blue-500/40">
+                <x-heroicon-o-building-office class="w-12 h-12 text-white" />
+            </div>
+        </div>
+
+        {{-- Title --}}
+        <h1 class="fade-up delay-1 text-5xl md:text-7xl font-black leading-tight">
+            <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+                Blue Haven Hotel
+            </span>
         </h1>
-        <p class="text-2xl md:text-4xl font-bold text-white mt-4">
-            Modern • Premium • Futuristik
+
+        {{-- Tagline --}}
+        <p class="fade-up delay-2 text-xl md:text-3xl font-semibold text-gray-700 mt-6 flex items-center justify-center gap-4 flex-wrap">
+            <span class="text-blue-600">Modern</span>
+            <span class="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"></span>
+            <span class="text-purple-600">Premium</span>
+            <span class="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-400 rounded-full"></span>
+            <span class="text-pink-600">Futuristik</span>
         </p>
 
-        <p class="mt-6 text-lg md:text-2xl max-w-3xl mx-auto text-blue-100">
-            Rasakan pengalaman menginap modern dengan kenyamanan maksimal dan desain futuristik yang memukau.
+        {{-- Description --}}
+        <p class="fade-up delay-3 mt-8 text-lg md:text-xl max-w-3xl mx-auto text-gray-600 leading-relaxed">
+            Rasakan pengalaman menginap modern dengan kenyamanan maksimal dan desain futuristik yang memukau
         </p>
 
-        <a href="{{ route('login') }}"
-           class="btn-primary mt-10 inline-block px-12 py-4 bg-blue-600 text-white rounded-2xl font-bold text-lg shadow-xl relative z-10"
-           aria-label="Mulai booking hotel sekarang">
-            Mulai Booking Sekarang
-        </a>
+        {{-- CTA Buttons --}}
+        <div class="fade-up delay-4 mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{{ route('login') }}"
+               class="btn-gradient pulse-ring px-10 py-4 rounded-2xl text-white font-bold text-lg shadow-xl inline-flex items-center gap-3">
+                <x-heroicon-o-arrow-left-on-rectangle class="w-6 h-6" />
+                Mulai Booking
+            </a>
+            <a href="{{ route('register') }}"
+               class="btn-gradient-purple px-10 py-4 rounded-2xl text-white font-bold text-lg shadow-xl inline-flex items-center gap-3">
+                <x-heroicon-o-user-plus class="w-6 h-6" />
+                Daftar Gratis
+            </a>
+        </div>
 
         {{-- Scroll Indicator --}}
-        <div class="mt-16 animate-bounce">
-            <a href="#fitur" aria-label="Scroll ke fitur">
-                <svg class="w-6 h-6 mx-auto text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                </svg>
+        <div class="fade-up delay-5 mt-16">
+            <a href="#fitur" class="inline-flex flex-col items-center text-gray-500 hover:text-blue-600 transition-colors">
+                <span class="text-sm font-medium mb-2">Scroll</span>
+                <x-heroicon-o-chevron-down class="w-8 h-8 animate-bounce" />
             </a>
         </div>
     </div>
 </section>
 
 {{-- FITUR SECTION --}}
-<section id="fitur" class="max-w-7xl mx-auto px-6 py-24">
-    <div class="text-center mb-20" data-aos="fade-up">
-        <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900">
-            Keunggulan Blue Haven Hotel
-        </h2>
-        <p class="mt-4 text-lg text-gray-700 max-w-2xl mx-auto">
-            Kami menawarkan pengalaman menginap terbaik dengan fasilitas modern dan pelayanan premium
-        </p>
-    </div>
+<section id="fitur" class="relative py-24 bg-white overflow-hidden">
+    {{-- Decorative elements --}}
+    <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-50/50 to-transparent"></div>
+    <div class="absolute -top-20 -right-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+    <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-100 rounded-full blur-3xl opacity-50"></div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-        {{-- Card 1 --}}
-        <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-                </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-blue-900 mb-3">Kenyamanan Premium</h3>
-            <p class="text-gray-700 leading-relaxed">
-                Lingkungan hotel modern dan elegan dengan fasilitas bintang 5 yang dirancang untuk kenyamanan maksimal Anda.
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        {{-- Section Header --}}
+        <div class="text-center mb-20" data-aos="fade-up">
+            <span class="inline-block px-4 py-2 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-full text-blue-600 text-sm font-semibold mb-4">
+                KEUNGGULAN KAMI
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900">
+                Mengapa Memilih <span class="text-blue-600">Blue Haven</span>?
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                Kami menawarkan pengalaman menginap terbaik dengan fasilitas modern dan pelayanan premium
             </p>
-        </article>
+        </div>
 
-        {{-- Card 2 --}}
-        <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-blue-900 mb-3">Keamanan Tinggi</h3>
-            <p class="text-gray-700 leading-relaxed">
-                Sistem keamanan 24/7 dengan teknologi smart lock dan surveillance modern untuk melindungi privasi Anda.
-            </p>
-        </article>
+        {{-- Feature Cards --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {{-- Card 1 --}}
+            <article class="glass-card p-8 border-t-4 border-blue-500" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-box mb-6 bg-gradient-to-br from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/30">
+                    <x-heroicon-o-sparkles class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Kenyamanan Premium</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Lingkungan hotel modern dan elegan dengan fasilitas bintang 5 yang dirancang untuk kenyamanan maksimal Anda.
+                </p>
+            </article>
 
-        {{-- Card 3 --}}
-        <article class="p-10 glass shadow-xl group" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon-container">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                </svg>
-            </div>
-            <h3 class="text-2xl font-bold text-blue-900 mb-3">Desain Futuristik</h3>
-            <p class="text-gray-700 leading-relaxed">
-                Interior modern bernuansa blue-glass dengan teknologi smart room yang dapat dikontrol melalui smartphone.
-            </p>
-        </article>
+            {{-- Card 2 --}}
+            <article class="glass-card p-8 border-t-4 border-purple-500" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box mb-6 bg-gradient-to-br from-purple-500 to-pink-400 shadow-lg shadow-purple-500/30">
+                    <x-heroicon-o-shield-check class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Keamanan Tinggi</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Sistem keamanan 24/7 dengan teknologi smart lock dan surveillance modern untuk melindungi privasi Anda.
+                </p>
+            </article>
+
+            {{-- Card 3 --}}
+            <article class="glass-card p-8 border-t-4 border-emerald-500" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box mb-6 bg-gradient-to-br from-emerald-500 to-teal-400 shadow-lg shadow-emerald-500/30">
+                    <x-heroicon-o-cpu-chip class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Teknologi Smart</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Interior modern dengan teknologi smart room yang dapat dikontrol melalui smartphone Anda.
+                </p>
+            </article>
+        </div>
     </div>
 </section>
 
 {{-- STATS SECTION --}}
-<section class="max-w-7xl mx-auto px-6 py-20">
-    <div class="glass p-12 rounded-3xl" data-aos="zoom-in">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div data-aos="fade-up" data-aos-delay="100">
-                <div class="text-4xl font-black text-blue-700">500+</div>
-                <div class="text-gray-700 mt-2">Tamu Puas</div>
-            </div>
-            <div data-aos="fade-up" data-aos-delay="200">
-                <div class="text-4xl font-black text-blue-700">50+</div>
-                <div class="text-gray-700 mt-2">Kamar Premium</div>
-            </div>
-            <div data-aos="fade-up" data-aos-delay="300">
-                <div class="text-4xl font-black text-blue-700">24/7</div>
-                <div class="text-gray-700 mt-2">Layanan</div>
-            </div>
-            <div data-aos="fade-up" data-aos-delay="400">
-                <div class="text-4xl font-black text-blue-700">4.9★</div>
-                <div class="text-gray-700 mt-2">Rating</div>
+<section class="relative py-20 gradient-bright overflow-hidden">
+    {{-- Blobs --}}
+    <div class="absolute w-80 h-80 bg-cyan-200/50 rounded-full blur-[80px] top-0 left-1/4"></div>
+    <div class="absolute w-80 h-80 bg-purple-200/50 rounded-full blur-[80px] bottom-0 right-1/4"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6">
+        <div class="glass-card p-12" data-aos="zoom-in">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-5xl font-black bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">500+</div>
+                    <div class="text-gray-600 mt-2 font-medium">Tamu Puas</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">50+</div>
+                    <div class="text-gray-600 mt-2 font-medium">Kamar Premium</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-5xl font-black bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">24/7</div>
+                    <div class="text-gray-600 mt-2 font-medium">Layanan</div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-5xl font-black bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent flex items-center justify-center gap-2">
+                        4.9
+                        <x-heroicon-s-star class="w-10 h-10 text-yellow-500" />
+                    </div>
+                    <div class="text-gray-600 mt-2 font-medium">Rating</div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 {{-- CTA SECTION --}}
-<section id="cta" class="w-full py-20 bg-gradient-to-r from-blue-700 to-blue-900 text-white text-center rounded-t-3xl" data-aos="fade-up">
-    <h2 class="text-4xl md:text-5xl font-extrabold">Siap Menginap dengan Nyaman?</h2>
-    <p class="mt-4 text-xl text-blue-100 max-w-2xl mx-auto">
-        Booking cepat dan aman dengan sistem reservasi online yang mudah digunakan
-    </p>
+<section id="cta" class="relative py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 overflow-hidden">
+    {{-- Decorative circles --}}
+    <div class="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl top-0 right-0"></div>
+    <div class="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl bottom-0 left-0"></div>
 
-    <a href="{{ route('register') }}"
-       class="pulse-btn mt-8 inline-block px-14 py-4 bg-white text-blue-800 font-bold text-xl rounded-3xl hover:scale-110 transition shadow-2xl"
-       aria-label="Daftar untuk membuat reservasi">
-        Daftar Sekarang
-    </a>
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+        <span class="inline-block px-4 py-2 bg-white/20 rounded-full text-white text-sm font-semibold mb-6">
+            SIAP MENGINAP?
+        </span>
+        
+        <h2 class="text-4xl md:text-6xl font-bold text-white leading-tight">
+            Mulai Pengalaman<br>
+            <span class="text-cyan-200">Menginap Premium</span>
+        </h2>
+        
+        <p class="mt-6 text-xl text-white/80 max-w-2xl mx-auto">
+            Booking cepat dan aman dengan sistem reservasi online yang mudah digunakan. Daftar sekarang dan dapatkan penawaran spesial!
+        </p>
 
-    <p class="mt-6 text-sm text-blue-200">
-        Sudah punya akun? <a href="{{ route('login') }}" class="underline hover:text-white">Login di sini</a>
-    </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{{ route('register') }}"
+               class="px-12 py-5 rounded-2xl text-blue-600 font-bold text-xl bg-white hover:bg-gray-100 shadow-xl inline-flex items-center gap-3 transition-all hover:scale-105">
+                <x-heroicon-o-rocket-launch class="w-6 h-6" />
+                Daftar Sekarang
+            </a>
+        </div>
+
+        <p class="mt-8 text-white/70">
+            Sudah punya akun? 
+            <a href="{{ route('login') }}" class="link-hover text-cyan-200 font-semibold">Login di sini</a>
+        </p>
+    </div>
+</section>
+
+{{-- CONTACT SECTION --}}
+<section id="contact" class="relative py-24 bg-gradient-to-br from-slate-50 to-blue-50 overflow-hidden">
+    {{-- Decorative elements --}}
+    <div class="absolute -top-20 -left-20 w-64 h-64 bg-blue-200 rounded-full blur-3xl opacity-40"></div>
+    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+        {{-- Section Header --}}
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full text-blue-600 text-sm font-semibold mb-4">
+                HUBUNGI KAMI
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900">
+                Ada <span class="text-blue-600">Pertanyaan</span>?
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                Tim kami siap membantu Anda 24/7. Jangan ragu untuk menghubungi kami!
+            </p>
+        </div>
+
+        {{-- Contact Cards --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {{-- Card: Location --}}
+            <div class="glass-card p-8 text-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-box mx-auto mb-6 bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/30">
+                    <x-heroicon-o-map-pin class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Alamat</h3>
+                <p class="text-gray-600">
+                    Jl. Sudirman No. 123<br>
+                    Jakarta Pusat, 10220<br>
+                    Indonesia
+                </p>
+            </div>
+
+            {{-- Card: Phone --}}
+            <div class="glass-card p-8 text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box mx-auto mb-6 bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30">
+                    <x-heroicon-o-phone class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Telepon</h3>
+                <p class="text-gray-600">
+                    +62 21 1234 5678<br>
+                    +62 812 3456 7890<br>
+                    (24/7 Available)
+                </p>
+            </div>
+
+            {{-- Card: Email --}}
+            <div class="glass-card p-8 text-center" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box mx-auto mb-6 bg-gradient-to-br from-cyan-500 to-emerald-500 shadow-lg shadow-cyan-500/30">
+                    <x-heroicon-o-envelope class="w-8 h-8 text-white" />
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Email</h3>
+                <p class="text-gray-600">
+                    info@bluehavenhotel.com<br>
+                    support@bluehavenhotel.com<br>
+                    reservation@bluehavenhotel.com
+                </p>
+            </div>
+        </div>
+
+        {{-- Map & Quick Contact --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="400">
+            {{-- Map Placeholder --}}
+            <div class="glass-card overflow-hidden">
+                <div class="bg-gradient-to-br from-blue-100 to-purple-100 h-80 flex items-center justify-center">
+                    <div class="text-center">
+                        <x-heroicon-o-map class="w-16 h-16 text-blue-500 mx-auto mb-4" />
+                        <p class="text-gray-600 font-medium">Lokasi Blue Haven Hotel</p>
+                        <p class="text-sm text-gray-500 mt-2">Jakarta Pusat, Indonesia</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Quick Info --}}
+            <div class="glass-card p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">Jam Operasional</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <span class="font-medium text-gray-700">Front Desk</span>
+                        <span class="text-blue-600 font-semibold">24 Jam</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <span class="font-medium text-gray-700">Restoran</span>
+                        <span class="text-gray-600">06:00 - 22:00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <span class="font-medium text-gray-700">Gym & Spa</span>
+                        <span class="text-gray-600">06:00 - 21:00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
+                        <span class="font-medium text-gray-700">Swimming Pool</span>
+                        <span class="text-gray-600">07:00 - 20:00</span>
+                    </div>
+                    <div class="flex justify-between items-center py-3">
+                        <span class="font-medium text-gray-700">Check-in / Check-out</span>
+                        <span class="text-gray-600">14:00 / 12:00</span>
+                    </div>
+                </div>
+
+                <a href="{{ route('login') }}" 
+                   class="mt-8 w-full btn-gradient py-4 rounded-xl text-white font-bold text-center inline-flex items-center justify-center gap-2 shadow-lg">
+                    <x-heroicon-o-calendar-days class="w-5 h-5" />
+                    Reservasi Sekarang
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 
 {{-- FOOTER --}}
-<footer class="bg-gradient-to-b from-blue-900 to-indigo-950 text-blue-100" role="contentinfo">
+<footer class="relative bg-gray-900 text-gray-300 overflow-hidden">
+    
+    {{-- Top gradient line --}}
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
 
-    <div class="max-w-7xl mx-auto px-8 pt-24 pb-16 grid grid-cols-1 md:grid-cols-4 gap-14">
+    <div class="max-w-7xl mx-auto px-8 pt-20 pb-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
 
-        <div data-aos="fade-right" data-aos-delay="100">
-            <h2 class="text-3xl font-extrabold text-cyan-300 mb-4">Blue Haven Hotel</h2>
-            <p class="mt-5 text-sm leading-relaxed">
-                Hotel futuristik dengan kenyamanan premium dan layanan profesional yang siap melayani Anda 24/7.
-            </p>
-            <div class="flex gap-4 mt-6">
-                <a href="#" aria-label="Facebook" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-                <a href="#" aria-label="Instagram" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="#" aria-label="Twitter" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-                </a>
+            {{-- Brand --}}
+            <div data-aos="fade-right" data-aos-delay="100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                        <x-heroicon-o-building-office class="w-6 h-6 text-white" />
+                    </div>
+                    <span class="text-2xl font-bold text-white">Blue Haven</span>
+                </div>
+                <p class="text-sm leading-relaxed text-gray-400">
+                    Hotel futuristik dengan kenyamanan premium dan layanan profesional yang siap melayani Anda 24/7.
+                </p>
+                <div class="flex gap-3 mt-6">
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-xl flex items-center justify-center transition-colors">
+                        <span class="text-sm font-bold">f</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-xl flex items-center justify-center transition-colors">
+                        <x-heroicon-o-camera class="w-5 h-5" />
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-sky-500 rounded-xl flex items-center justify-center transition-colors">
+                        <span class="text-sm font-bold">X</span>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div data-aos="fade-right" data-aos-delay="200">
-            <h3 class="text-lg font-semibold mb-4 text-cyan-300">Navigasi</h3>
-            <ul class="space-y-2 text-sm">
-                <li><a href="/">Home</a></li>
-                <li><a href="#fitur">Features</a></li>
-                <li><a href="#cta">Reservation</a></li>
-            </ul>
-        </div>
+            {{-- Navigation --}}
+            <div data-aos="fade-right" data-aos-delay="200">
+                <h3 class="text-lg font-semibold text-white mb-4">Navigasi</h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="/" class="hover:text-cyan-400 transition-colors">Beranda</a></li>
+                    <li><a href="#fitur" class="hover:text-cyan-400 transition-colors">Fitur</a></li>
+                    <li><a href="#cta" class="hover:text-cyan-400 transition-colors">Reservasi</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-cyan-400 transition-colors">Login</a></li>
+                </ul>
+            </div>
 
-        <div data-aos="fade-right" data-aos-delay="300">
-            <h3 class="text-lg font-semibold mb-4 text-cyan-300">Layanan</h3>
-            <ul class="space-y-2 text-sm">
-                <li>Premium Room</li>
-                <li>24/7 Security</li>
-                <li>Smart Technology</li>
-                <li>Room Service</li>
-                <li>Concierge</li>
-            </ul>
-        </div>
+            {{-- Services --}}
+            <div data-aos="fade-right" data-aos-delay="300">
+                <h3 class="text-lg font-semibold text-white mb-4">Layanan</h3>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li>Kamar Premium</li>
+                    <li>Keamanan 24/7</li>
+                    <li>Teknologi Pintar</li>
+                    <li>Layanan Kamar</li>
+                    <li>Resepsionis</li>
+                </ul>
+            </div>
 
-        <div data-aos="fade-right" data-aos-delay="400">
-            <h3 class="text-lg font-semibold mb-4 text-cyan-300">Kontak</h3>
-            <p class="text-sm leading-relaxed">
-                <strong>Alamat:</strong><br>
-                Jl. Sudirman No. 123<br>
-                Jakarta Pusat, 10220<br>
-                Indonesia
-            </p>
-            <p class="text-sm mt-4">
-                <strong>Email:</strong><br>
-                support@bluehavenhotel.com
-            </p>
-            <p class="text-sm mt-4">
-                <strong>Phone:</strong><br>
-                +62 21 1234 5678
-            </p>
+            {{-- Contact --}}
+            <div data-aos="fade-right" data-aos-delay="400">
+                <h3 class="text-lg font-semibold text-white mb-4">Kontak</h3>
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-start gap-3">
+                        <x-heroicon-o-map-pin class="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                        <span class="text-gray-400">Jl. Sudirman No. 123<br>Jakarta Pusat, 10220</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <x-heroicon-o-envelope class="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                        <span class="text-gray-400">support@bluehavenhotel.com</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <x-heroicon-o-phone class="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                        <span class="text-gray-400">+62 21 1234 5678</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between items-center text-sm">
-            <span>© {{ date('Y') }} Blue Haven Hotel. All rights reserved.</span>
-            <div class="flex gap-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-cyan-300">Privacy Policy</a>
-                <span>•</span>
-                <a href="#" class="hover:text-cyan-300">Terms of Service</a>
-                <span>•</span>
-                <a href="#" class="hover:text-cyan-300">Help Center</a>
+    {{-- Copyright --}}
+    <div class="border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+            <span>&copy; {{ date('Y') }} Blue Haven Hotel. Hak cipta dilindungi undang-undang.</span>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-cyan-400 transition-colors">Kebijakan Privasi</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">Syarat & Ketentuan</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">Pusat Bantuan</a>
             </div>
         </div>
     </div>
-
 </footer>
 
 @endsection

@@ -1,183 +1,214 @@
-@extends('layouts.app')
+@extends('layouts.tamu')
 
 @section('content')
 
-<style>
-    .glass {
-        background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-    }
+<div class="mb-10">
+    <h2 class="text-2xl font-bold text-ant-text">Form<span class="material-symbols-outlined text-[18px]">bed</span> Reservasi Kamar</h2>
+    <p class="text-sm text-ant-textSecondary mt-1">Lengkapi formulir di bawah ini untuk melakukan<span class="material-symbols-outlined text-[18px]">bed</span> Reservasi Kamar.</p>
+</div>
 
-    .rgb-border {
-        position: relative;
-    }
-
-    .rgb-border::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        padding: 2px;
-        border-radius: inherit;
-        background: linear-gradient(
-            120deg,
-            #3b82f6,
-            #22d3ee,
-            #a855f7,
-            #3b82f6
-        );
-        background-size: 300% 300%;
-        animation: rgbFlow 6s linear infinite;
-        -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-    }
-
-    @keyframes rgbFlow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-</style>
-
-<div class="min-h-screen p-10 bg-gradient-to-br from-blue-50 via-white to-purple-100">
-
-    <h2 class="text-3xl font-extrabold mb-10 text-gray-700 tracking-wide drop-shadow">
-        📝 Form Reservasi Kamar
-    </h2>
-
-    <div class="max-w-xl mx-auto glass rgb-border p-8 shadow-xl transition-all">
-
-        {{-- 🔴 SESSION ERROR (FIX UTAMA) --}}
-        @if(session('error'))
-            <div class="mb-6 p-4 bg-red-200 text-red-800 rounded-xl shadow font-semibold">
-                ⚠ {{ session('error') }}
+<div class="max-w-3xl mx-auto">
+    {{-- ERROR NOTIFICATIONS --}}
+    @if(session('error'))
+        <div class="ant-card p-4 mb-8 border-l-4 border-red-500 bg-red-50">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-red-600">error</span>
+                <span class="text-sm font-medium text-red-800">{{ session('error') }}</span>
             </div>
-        @endif
+        </div>
+    @endif
 
-        {{-- 🔴 VALIDATION ERROR --}}
-        @if ($errors->any())
-            <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-xl shadow">
-                <strong>⚠ Terjadi kesalahan:</strong>
-                <ul class="mt-2 ml-4 list-disc">
-                    @foreach ($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
+    @if ($errors->any())
+        <div class="ant-card p-4 mb-8 border-l-4 border-red-500 bg-red-50">
+            <div class="flex items-start gap-3">
+                <span class="material-symbols-outlined text-red-600">error</span>
+                <div class="flex-1">
+                    <p class="text-sm font-bold text-red-800 mb-2">Terjadi kesalahan:</p>
+                    <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+                        @foreach ($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-        @endif
+        </div>
+    @endif
 
-        {{-- INFO KAMAR --}}
-        <div class="mb-6">
-            <h3 class="text-2xl font-bold text-gray-800">
-                {{ $kamar->tipe_kamar }}
-            </h3>
-
+    {{-- ROOM INFO CARD --}}
+    <div class="ant-card p-6 mb-8">
+        <div class="flex items-start gap-6">
             @if($kamar->foto_utama)
-                <img src="{{ asset('uploads/kamar/' . $kamar->foto_utama) }}"
-                     class="w-full h-48 object-cover rounded-xl shadow mb-3"
-                     alt="Foto {{ $kamar->tipe_kamar }}">
+                @php
+                    $isUrl = str_starts_with($kamar->foto_utama, 'http://') || str_starts_with($kamar->foto_utama, 'https://');
+                    $imageUrl = $isUrl ? $kamar->foto_utama : asset('uploads/kamar/' . $kamar->foto_utama);
+                @endphp
+                <div class="w-48 h-32 rounded-lg overflow-hidden flex-shrink-0">
+                    <img src="{{ $imageUrl }}" 
+                         class="w-full h-full object-cover"
+                         alt="Foto {{ $kamar->tipe_kamar }}"
+                         onerror="this.parentElement.innerHTML='<div class=\'w-48 h-32 rounded-lg bg-ant-bg flex items-center justify-center flex-shrink-0\'><span class=\'material-symbols-outlined text-ant-textSecondary text-[48px]\'>bed</span></div>'">
+                </div>
+            @else
+                <div class="w-48 h-32 rounded-lg bg-ant-bg flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-ant-textSecondary text-[48px]">bed</span>
+                </div>
             @endif
 
-            <p class="text-gray-600 text-lg mt-1">
-                💰 Harga per malam:
-                <span class="text-blue-600 font-bold">
-                    Rp {{ number_format($kamar->harga, 0, ',', '.') }}
-                </span>
-            </p>
-
-            <p class="text-sm text-gray-500 mt-1">
-                Kapasitas maksimal: {{ $kamar->kapasitas }} orang
-            </p>
+            <div class="flex-1">
+                <h3 class="text-xl font-bold text-ant-text mb-2">{{ $kamar->tipe_kamar }}</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-ant-textSecondary text-[18px]">payments</span>
+                        <span class="text-sm text-ant-textSecondary">Harga per malam:</span>
+                        <span class="text-lg font-bold text-ant-primary">Rp {{ number_format($kamar->harga, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-ant-textSecondary text-[18px]">groups</span>
+                        <span class="text-sm text-ant-textSecondary">Kapasitas maksimal:</span>
+                        <span class="text-sm font-bold text-ant-text">{{ $kamar->kapasitas }} orang</span>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        {{-- FORM --}}
-        <form method="POST" action="{{ route('tamu.order.store') }}">
+    {{-- RESERVATION FORM --}}
+    <div class="ant-card p-8">
+        <h4 class="text-base font-bold text-ant-text mb-6 pb-4 border-b border-ant-borderSplit">Detail Reservasi</h4>
+        
+        <form method="POST" action="{{ route('tamu.order.store') }}" class="space-y-6">
             @csrf
-
             <input type="hidden" name="id_kamar" value="{{ $kamar->id_kamar }}">
 
             {{-- JUMLAH TAMU --}}
-            <div class="mb-5">
-                <label class="block text-gray-700 font-semibold mb-2">
-                    👥 Jumlah Tamu
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-ant-text flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">groups</span>
+                    Jumlah Tamu
                 </label>
-
-                <input
-                    type="number"
-                    name="jumlah_tamu"
-                    min="1"
-                    max="{{ $kamar->kapasitas }}"
-                    value="{{ old('jumlah_tamu', 1) }}"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm
-                           focus:ring-2 focus:ring-green-400 focus:border-green-400 transition outline-none"
-                    required
-                >
+                <input type="number" name="jumlah_tamu" 
+                       min="1" max="{{ $kamar->kapasitas }}" 
+                       value="{{ old('jumlah_tamu', 1) }}"
+                       class="h-10 border border-ant-border rounded-ant px-3 text-sm focus:border-ant-primary focus:outline-none transition-all"
+                       required>
+                <span class="text-[11px] text-ant-textSecondary">Maksimal {{ $kamar->kapasitas }} orang</span>
             </div>
 
             {{-- CHECK-IN --}}
-            <div class="mb-5">
-                <label class="block text-gray-700 font-semibold mb-2">
-                    📅 Tanggal Check-in
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-ant-text flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">login</span>
+                    Tanggal & Jam Check-in
                 </label>
-
-                <input
-                    type="date"
-                    name="tgl_checkin"
-                    id="checkin"
-                    value="{{ old('tgl_checkin') }}"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm
-                           focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition outline-none"
-                    required
-                >
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="date" name="tgl_checkin" id="checkin"
+                           value="{{ old('tgl_checkin') }}"
+                           class="h-10 border border-ant-border rounded-xl px-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                           required>
+                    <input type="time" name="jam_checkin" id="jam_checkin"
+                           value="{{ old('jam_checkin', '14:00') }}"
+                           class="h-10 border border-ant-border rounded-xl px-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                           required>
+                </div>
+                <span class="text-[11px] text-ant-textSecondary">Standar check-in hotel: 14:00 WIB</span>
             </div>
 
             {{-- CHECK-OUT --}}
-            <div class="mb-6">
-                <label class="block text-gray-700 font-semibold mb-2">
-                    📅 Tanggal Check-out
+            <div class="flex flex-col gap-2">
+                <label class="text-sm font-medium text-ant-text flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">logout</span>
+                    Tanggal & Jam Check-out
                 </label>
-
-                <input
-                    type="date"
-                    name="tgl_checkout"
-                    id="checkout"
-                    value="{{ old('tgl_checkout') }}"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm
-                           focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition outline-none"
-                    required
-                >
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="date" name="tgl_checkout" id="checkout"
+                           value="{{ old('tgl_checkout') }}"
+                           class="h-10 border border-ant-border rounded-xl px-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                           required>
+                    <input type="time" name="jam_checkout" id="jam_checkout"
+                           value="{{ old('jam_checkout', '12:00') }}"
+                           class="h-10 border border-ant-border rounded-xl px-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all"
+                           required>
+                </div>
+                <span class="text-[11px] text-ant-textSecondary">Standar check-out hotel: 12:00 WIB</span>
             </div>
 
-            {{-- SUBMIT --}}
-            <button
-                type="submit"
-                class="w-full py-3 bg-green-600 text-white font-semibold rounded-xl shadow-md
-                       hover:bg-green-700 hover:shadow-lg hover:-translate-y-0.5
-                       transition-all duration-300">
-                Buat Reservasi 🚀
-            </button>
+            {{-- RINGKASAN PEMBAYARAN --}}
+            <div id="paymentSummary" class="hidden p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-ant-primary/20">
+                <h5 class="text-sm font-bold text-ant-text mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-ant-primary text-[18px]">receipt</span>
+                    Ringkasan Pembayaran
+                </h5>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-ant-textSecondary">Harga per malam</span>
+                        <span class="text-sm font-bold text-ant-text">Rp {{ number_format($kamar->harga, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-ant-textSecondary">Jumlah malam</span>
+                        <span id="nightCount" class="text-sm font-bold text-ant-text">0 malam</span>
+                    </div>
+                    <div class="h-px bg-ant-border my-2"></div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-base font-bold text-ant-text">Total Pembayaran</span>
+                        <span id="totalPayment" class="text-lg font-black text-ant-primary">Rp 0</span>
+                    </div>
+                </div>
+            </div>
 
+            {{-- SUBMIT BUTTON --}}
+            <div class="pt-6 border-t border-ant-borderSplit">
+                <button type="submit" class="ant-btn-primary w-full h-12 text-base flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                    Buat Reservasi Sekarang
+                </button>
+            </div>
         </form>
     </div>
 </div>
 
-{{-- VALIDASI TANGGAL --}}
+{{-- DATE VALIDATION SCRIPT --}}
 <script>
     const today = new Date().toISOString().split("T")[0];
     const checkin = document.getElementById("checkin");
     const checkout = document.getElementById("checkout");
+    const hargaPerMalam = {{ $kamar->harga }};
 
     checkin.setAttribute("min", today);
 
     checkin.addEventListener("change", function () {
         checkout.setAttribute("min", this.value);
+        calculateTotal();
     });
+
+    checkout.addEventListener("change", function () {
+        calculateTotal();
+    });
+
+    function calculateTotal() {
+        const checkinDate = new Date(checkin.value);
+        const checkoutDate = new Date(checkout.value);
+        
+        if (checkin.value && checkout.value && checkoutDate > checkinDate) {
+            // Hitung durasi dalam malam
+            const diffTime = Math.abs(checkoutDate - checkinDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            // Hitung total
+            const total = hargaPerMalam * diffDays;
+            
+            // Format dengan pemisah ribuan
+            const formattedTotal = new Intl.NumberFormat('id-ID').format(total);
+            
+            // Update tampilan
+            document.getElementById('nightCount').textContent = diffDays + ' malam';
+            document.getElementById('totalPayment').textContent = 'Rp ' + formattedTotal;
+            document.getElementById('paymentSummary').classList.remove('hidden');
+        } else {
+            document.getElementById('paymentSummary').classList.add('hidden');
+        }
+    }
 </script>
 
 @endsection
+
+

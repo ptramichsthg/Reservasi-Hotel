@@ -29,23 +29,25 @@ class AdminPaymentController extends Controller
         $payment = Payment::findOrFail($id);
         $reservasi = Reservasi::findOrFail($payment->reservasi_id);
 
-        // ✅ UPDATE PAYMENT (PAKAI ENUM VALID)
+        // UPDATE PAYMENT (PAKAI ENUM VALID)
         $payment->update([
             'status'             => 'confirmed',
             'admin_id'           => Auth::id(),
             'tanggal_verifikasi' => now(),
         ]);
 
-        // ✅ UPDATE RESERVASI (ENUM VALID)
+        // UPDATE RESERVASI (ENUM VALID)
+        // status_pembayaran: pending, verified, rejected
+        // status_reservasi: pending, confirmed, cancelled
         $reservasi->update([
-            'status_pembayaran' => 'confirmed',
+            'status_pembayaran' => 'verified',   // FIXED: harus 'verified' bukan 'confirmed'
             'status_reservasi'  => 'confirmed',
         ]);
 
         // KIRIM NOTIFIKASI
         NotifikasiController::send(
             $reservasi->id_user,
-            '✅ Pembayaran Terverifikasi',
+            'Pembayaran Terverifikasi',
             'Pembayaran Anda untuk reservasi #' . $payment->reservasi_id . ' telah diverifikasi oleh admin.'
         );
 
@@ -76,7 +78,7 @@ class AdminPaymentController extends Controller
         // KIRIM NOTIFIKASI
         NotifikasiController::send(
             $reservasi->id_user,
-            '❌ Pembayaran Ditolak',
+            'Pembayaran Ditolak',
             'Pembayaran Anda untuk reservasi #' . $payment->reservasi_id . ' ditolak. Silakan upload ulang bukti pembayaran yang valid.'
         );
 

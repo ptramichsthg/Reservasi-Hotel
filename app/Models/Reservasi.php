@@ -16,7 +16,9 @@ class Reservasi extends Model
         'id_user',
         'id_kamar',
         'tgl_checkin',
+        'jam_checkin',      // Jam check-in (default 14:00)
         'tgl_checkout',
+        'jam_checkout',     // Jam check-out (default 12:00)
         'status_pembayaran',   // pending, verified, rejected
         'status_reservasi',    // pending, confirmed, cancelled
         'jumlah_tamu',
@@ -29,7 +31,7 @@ class Reservasi extends Model
     ];
 
     /* ============================================================
-     * 🔵 RELASI USER (1 reservasi dimiliki 1 user)
+     * RELASI USER (1 reservasi dimiliki 1 user)
      * ============================================================
      */
     public function user()
@@ -38,7 +40,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI KAMAR (1 reservasi memilih 1 kamar)
+     * RELASI KAMAR (1 reservasi memilih 1 kamar)
      * ============================================================
      */
     public function kamar()
@@ -47,7 +49,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI PEMBAYARAN (1 reservasi punya 1 pembayaran)
+     * RELASI PEMBAYARAN (1 reservasi punya 1 pembayaran)
      * ============================================================
      */
     public function pembayaran()
@@ -56,7 +58,7 @@ class Reservasi extends Model
     }
 
     /* ============================================================
-     * 🔵 RELASI NOTIFIKASI (1 reservasi menghasilkan banyak notifikasi)
+     * RELASI NOTIFIKASI (1 reservasi menghasilkan banyak notifikasi)
      * ============================================================
      */
     public function notifikasi()

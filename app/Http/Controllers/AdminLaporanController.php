@@ -11,7 +11,7 @@ class AdminLaporanController extends Controller
 {
     /**
      * ===============================
-     * 📊 LAPORAN KAMAR (VIEW HTML)
+     * LAPORAN KAMAR (VIEW HTML)
      * ===============================
      */
     public function kamar()
@@ -32,7 +32,7 @@ class AdminLaporanController extends Controller
 
     /**
      * ===============================
-     * 💰 LAPORAN TRANSAKSI (VIEW HTML)
+     * LAPORAN TRANSAKSI (VIEW HTML)
      * ===============================
      */
     public function transaksi(Request $request)
@@ -62,7 +62,7 @@ class AdminLaporanController extends Controller
 
     /**
      * ======================================================
-     * 🧾 EXPORT LAPORAN KAMAR (PDF) ✅ FIX
+     * EXPORT LAPORAN KAMAR (PDF) FIX
      * ======================================================
      */
     public function exportKamarPDF()
@@ -115,5 +115,63 @@ class AdminLaporanController extends Controller
         )
         ->setPaper('A4', 'landscape')
         ->download('laporan_transaksi.pdf');
+    }
+
+    /**
+     * ===============================
+     * LAPORAN PENDAPATAN
+     * ===============================
+     */
+    public function pendapatan(Request $request)
+    {
+        // Total Pendapatan (semua transaksi verified)
+        $totalPendapatan = Reservasi::where('status_pembayaran', 'verified')  // FIXED: 'paid' -> 'verified'
+            ->sum('total_harga');
+
+        // Pendapatan Bulan Ini
+        $pendapatanBulanIni = Reservasi::where('status_pembayaran', 'verified')  // FIXED
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('total_harga');
+
+        // Rata-rata Pendapatan Per Bulan (12 bulan terakhir)
+        $rataRata = Reservasi::where('status_pembayaran', 'verified')  // FIXED
+            ->where('created_at', '>=', now()->subMonths(12))
+            ->sum('total_harga') / 12;
+
+        // Grafik Pendapatan 12 Bulan Terakhir
+        $chartData = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $pendapatan = Reservasi::where('status_pembayaran', 'verified')  // FIXED
+                ->whereMonth('created_at', $month->month)
+                ->whereYear('created_at', $month->year)
+                ->sum('total_harga');
+            
+            $chartData[] = [
+                'bulan' => $month->format('M Y'),
+                'pendapatan' => $pendapatan
+            ];
+        }
+
+        $chartBulan = collect($chartData)->pluck('bulan');
+        $chartPendapatan = collect($chartData)->pluck('pendapatan');
+
+        // Pendapatan Per Tipe Kamar
+        $pendapatanPerTipe = Reservasi::where('status_pembayaran', 'verified')  // FIXED
+            ->join('kamars', 'reservasis.id_kamar', '=', 'kamars.id_kamar')
+            ->selectRaw('kamars.tipe_kamar, SUM(reservasis.total_harga) as total')
+            ->groupBy('kamars.tipe_kamar')
+            ->orderBy('total', 'DESC')
+            ->get();
+
+        return view('admin.laporan.pendapatan', compact(
+            'totalPendapatan',
+            'pendapatanBulanIni',
+            'rataRata',
+            'chartBulan',
+            'chartPendapatan',
+            'pendapatanPerTipe'
+        ));
     }
 }

@@ -18,11 +18,16 @@ class AdminDashboardController extends Controller
         $totalTamu      = User::where('role', 'tamu')->count();
         $totalKamar     = Kamars::count();
         $kamarTersedia  = Kamars::where('status', 'available')->count();
+        $kamarBooked    = Kamars::where('status', 'booked')->count();
+        $kamarMaintenance = Kamars::where('status', 'maintenance')->count();
 
         $totalReservasi = Reservasi::count();
         $pending        = Reservasi::where('status_pembayaran', 'pending')->count();
-        $paid           = Reservasi::where('status_pembayaran', 'paid')->count();
-        $cancelled      = Reservasi::where('status_pembayaran', 'cancelled')->count();
+        $verified       = Reservasi::where('status_pembayaran', 'verified')->count();  // FIXED: 'confirmed' -> 'verified'
+        $rejected       = Reservasi::where('status_pembayaran', 'rejected')->count();   // FIXED: 'cancelled' -> 'rejected'
+        
+        // Total Pendapatan (dari reservasi yang sudah confirmed)
+        $totalRevenue   = Reservasi::where('status_pembayaran', 'verified')->sum('total_harga');  // FIXED
 
         // Grafik — reservasi 7 hari terakhir
         $recentChart = Reservasi::selectRaw("DATE(created_at) AS tgl, COUNT(*) AS total")
@@ -55,8 +60,8 @@ class AdminDashboardController extends Controller
             ->get();
 
         return view('admin.dashboard', compact(
-            'totalTamu', 'totalKamar', 'kamarTersedia',
-            'totalReservasi', 'pending', 'paid', 'cancelled',
+            'totalTamu', 'totalKamar', 'kamarTersedia', 'kamarBooked', 'kamarMaintenance',
+            'totalReservasi', 'pending', 'verified', 'rejected', 'totalRevenue',  // FIXED variable names
             'chartTanggal', 'chartTotal', 'chartKamar',
             'recentReservasi', 'recentPayments'
         ));

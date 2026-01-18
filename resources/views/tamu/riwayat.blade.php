@@ -1,220 +1,193 @@
-@extends('layouts.app')
+@extends('layouts.tamu')
 
 @section('content')
 
-<style>
-    /* ===============================
-       🧊 Glassmorphism Premium
-    =============================== */
-    .glass {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border-radius: 24px;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        transition: all .35s ease;
-    }
+<div class="mb-10">
+    <h2 class="text-2xl font-bold text-ant-text">Riwayat Reservasi</h2>
+    <p class="text-sm text-ant-textSecondary mt-1">Daftar lengkap semua pemesanan kamar yang pernah Anda lakukan di Blue Haven Hotel.</p>
+</div>
 
-    .rgb-border {
-        position: relative;
-    }
-
-    .rgb-border::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        padding: 2px;
-        border-radius: inherit;
-        background: linear-gradient(
-            120deg,
-            #3b82f6,
-            #22d3ee,
-            #a855f7,
-            #3b82f6
-        );
-        background-size: 300% 300%;
-        animation: rgbFlow 6s linear infinite;
-        -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-    }
-
-    @keyframes rgbFlow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* ===============================
-       ✨ Animations
-    =============================== */
-    .fade-up {
-        opacity: 0;
-        transform: translateY(25px);
-        animation: fadeUp .9s ease-out forwards;
-    }
-
-    @keyframes fadeUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* ===============================
-       🔔 Status Badge
-    =============================== */
-    .badge {
-        padding: .4rem .9rem;
-        border-radius: 9999px;
-        font-size: .8rem;
-        font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: .4rem;
-    }
-
-    .badge-pending {
-        background: rgba(234,179,8,.2);
-        color: #a16207;
-    }
-
-    .badge-paid {
-        background: rgba(34,197,94,.2);
-        color: #15803d;
-    }
-
-    .badge-cancelled {
-        background: rgba(239,68,68,.2);
-        color: #b91c1c;
-    }
-
-    /* ===============================
-       📊 Table Hover
-    =============================== */
-    .table-row:hover {
-        background: rgba(168,85,247,.08);
-        transform: scale(1.01);
-    }
-</style>
-
-<div class="min-h-screen p-10
-            bg-gradient-to-br from-blue-50 via-white to-purple-100">
-
-    {{-- TITLE --}}
-    <div class="mb-10 fade-up">
-        <h1 class="text-4xl font-extrabold text-blue-900 tracking-wide">
-            📜 Riwayat Reservasi
-        </h1>
-        <p class="text-gray-600 mt-2">
-            Daftar semua pemesanan kamar yang pernah Anda lakukan
-        </p>
+{{-- SUCCESS NOTIFICATION --}}
+@if(session('success'))
+    <div class="ant-card p-4 mb-8 border-l-4 border-green-500 bg-green-50">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-green-600">check_circle</span>
+            <span class="text-sm font-medium text-green-800">{{ session('success') }}</span>
+        </div>
     </div>
+@endif
 
-    {{-- NOTIFIKASI --}}
-    @if(session('success'))
-        <div class="mb-8 glass rgb-border p-4 text-green-700 shadow-lg fade-up">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- EMPTY STATE --}}
-    @if($pemesanan->isEmpty())
-        <div class="glass rgb-border p-8 text-red-600 shadow-xl max-w-xl fade-up">
-            Kamu belum memiliki riwayat pemesanan 😢
-        </div>
-    @else
-
-        {{-- TABLE CARD --}}
-        <div class="glass rgb-border shadow-xl p-8 overflow-x-auto fade-up">
-
-            <table class="w-full border-collapse">
+{{-- EMPTY STATE --}}
+@if($pemesanan->isEmpty())
+    <div class="ant-card p-16 text-center">
+        <span class="material-symbols-outlined text-ant-textSecondary text-[80px] mb-6 block">receipt_long</span>
+        <h4 class="text-lg font-bold text-ant-text mb-2">Belum Ada Riwayat Reservasi</h4>
+        <p class="text-ant-textSecondary text-sm mb-8">Anda belum pernah melakukan pemesanan kamar. Mulai petualangan Anda sekarang!</p>
+        <a href="{{ route('tamu.kamar.list') }}" class="ant-btn-primary inline-flex items-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">search</span>
+            Cari Kamar Sekarang
+        </a>
+    </div>
+@else
+    {{-- TABLE CARD --}}
+    <div class="ant-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
                 <thead>
-                    <tr class="text-gray-600 text-sm uppercase tracking-wide border-b">
-                        <th class="py-4 text-left">Kamar</th>
-                        <th class="py-4 text-left">Check-In</th>
-                        <th class="py-4 text-left">Check-Out</th>
-                        <th class="py-4 text-left">Status</th>
-                        <th class="py-4 text-left">Pembayaran</th>
+                    <tr class="bg-ant-bg border-b border-ant-borderSplit">
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">ID Reservasi</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Tipe Kamar</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Check-In</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Check-Out</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Total Harga</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Status</th>
+                        <th class="py-4 px-6 font-bold text-ant-textSecondary uppercase text-[11px] tracking-wider">Aksi</th>
                     </tr>
                 </thead>
-
-                <tbody>
+                <tbody class="divide-y divide-ant-borderSplit">
                     @foreach($pemesanan as $psn)
-                    <tr class="border-b border-gray-200 transition-all table-row">
+                        @php
+                            $statusConfig = match($psn->status_pembayaran) {
+                                'pending' => [
+                                    'bg' => 'bg-orange-50',
+                                    'text' => 'text-orange-600',
+                                    'border' => 'border-orange-200',
+                                    'icon' => 'schedule',
+                                    'label' => 'Pending'
+                                ],
+                                'paid' => [
+                                    'bg' => 'bg-green-50',
+                                    'text' => 'text-green-600',
+                                    'border' => 'border-green-200',
+                                    'icon' => 'check_circle',
+                                    'label' => 'Lunas'
+                                ],
+                                'cancelled' => [
+                                    'bg' => 'bg-red-50',
+                                    'text' => 'text-red-600',
+                                    'border' => 'border-red-200',
+                                    'icon' => 'cancel',
+                                    'label' => 'Dibatalkan'
+                                ],
+                                default => [
+                                    'bg' => 'bg-gray-50',
+                                    'text' => 'text-gray-600',
+                                    'border' => 'border-gray-200',
+                                    'icon' => 'help',
+                                    'label' => 'Unknown'
+                                ]
+                            };
+                        @endphp
+                        <tr class="hover:bg-ant-bg/50 transition-colors">
+                            {{-- ID RESERVASI --}}
+                            <td class="py-5 px-6">
+                                <span class="font-mono text-ant-primary font-bold text-xs">#{{ str_pad($psn->id_reservasi, 5, '0', STR_PAD_LEFT) }}</span>
+                            </td>
 
-                        {{-- TIPE KAMAR --}}
-                        <td class="py-4 font-semibold text-gray-800">
-                            {{ $psn->kamar->tipe_kamar ?? 'Tidak Diketahui' }}
-                        </td>
+                            {{-- TIPE KAMAR --}}
+                            <td class="py-5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded bg-ant-bg flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-ant-primary text-[18px]">bed</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-ant-text">{{ $psn->kamar->tipe_kamar ?? 'N/A' }}</p>
+                                        <p class="text-[10px] text-ant-textSecondary uppercase tracking-wide">Blue Haven</p>
+                                    </div>
+                                </div>
+                            </td>
 
-                        {{-- CHECK-IN --}}
-                        <td class="py-4 text-gray-600">
-                            📅 {{ \Carbon\Carbon::parse($psn->tgl_checkin)->format('d M Y') }}
-                        </td>
+                            {{-- CHECK-IN --}}
+                            <td class="py-5 px-6">
+                                <div class="flex items-center gap-2 text-ant-textSecondary">
+                                    <span class="material-symbols-outlined text-[16px]">login</span>
+                                    <span class="font-medium">{{ \Carbon\Carbon::parse($psn->tgl_checkin)->format('d M Y') }}</span>
+                                </div>
+                            </td>
 
-                        {{-- CHECK-OUT --}}
-                        <td class="py-4 text-gray-600">
-                            📅 {{ \Carbon\Carbon::parse($psn->tgl_checkout)->format('d M Y') }}
-                        </td>
+                            {{-- CHECK-OUT --}}
+                            <td class="py-5 px-6">
+                                <div class="flex items-center gap-2 text-ant-textSecondary">
+                                    <span class="material-symbols-outlined text-[16px]">logout</span>
+                                    <span class="font-medium">{{ \Carbon\Carbon::parse($psn->tgl_checkout)->format('d M Y') }}</span>
+                                </div>
+                            </td>
 
-                        {{-- STATUS --}}
-                        <td class="py-4">
-                            @if($psn->status_pembayaran === 'pending')
-                                <span class="badge badge-pending">
-                                    ⏳ Pending
+                            {{-- TOTAL HARGA --}}
+                            <td class="py-5 px-6">
+                                @php
+                                    $durasi = \Carbon\Carbon::parse($psn->tgl_checkout)->diffInDays(\Carbon\Carbon::parse($psn->tgl_checkin));
+                                    $totalHarga = $psn->total_harga ?? ($psn->kamar->harga * $durasi);
+                                @endphp
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-ant-primary text-base">Rp {{ number_format($totalHarga, 0, ',', '.') }}</span>
+                                    <span class="text-[10px] text-ant-textSecondary mt-0.5">{{ $durasi }} malam</span>
+                                </div>
+                            </td>
+
+                            {{-- STATUS --}}
+                            <td class="py-5 px-6">
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase border {{ $statusConfig['bg'] }} {{ $statusConfig['text'] }} {{ $statusConfig['border'] }}">
+                                    <span class="material-symbols-outlined text-[14px]">{{ $statusConfig['icon'] }}</span>
+                                    {{ $statusConfig['label'] }}
                                 </span>
-                            @elseif($psn->status_pembayaran === 'paid')
-                                <span class="badge badge-paid">
-                                    ✔ Lunas
-                                </span>
-                            @elseif($psn->status_pembayaran === 'cancelled')
-                                <span class="badge badge-cancelled">
-                                    ✖ Dibatalkan
-                                </span>
-                            @else
-                                <span class="badge bg-gray-300 text-gray-700">
-                                    Tidak Diketahui
-                                </span>
-                            @endif
-                        </td>
+                            </td>
 
-                        {{-- AKSI --}}
-                        <td class="py-4">
-
-                            @if($psn->status_pembayaran === 'pending')
-                                <a href="{{ route('tamu.payment.upload.form', ['reservasi_id' => $psn->id_reservasi]) }}"
-                                   class="inline-block px-5 py-2
-                                          bg-blue-600 text-white rounded-xl font-semibold
-                                          shadow-md hover:bg-blue-700 hover:-translate-y-0.5
-                                          transition">
-                                    Upload Bukti
-                                </a>
-
-                            @elseif($psn->status_pembayaran === 'paid')
-                                <span class="text-green-700 font-semibold">
-                                    ✔ Sudah Lunas
-                                </span>
-
-                            @elseif($psn->status_pembayaran === 'cancelled')
-                                <span class="text-red-700 font-semibold">
-                                    ✖ Dibatalkan
-                                </span>
-                            @endif
-
-                        </td>
-
-                    </tr>
+                            {{-- AKSI --}}
+                            <td class="py-5 px-6">
+                                @if($psn->status_pembayaran === 'pending')
+                                    <a href="{{ route('tamu.payment.upload.form', ['reservasi_id' => $psn->id_reservasi]) }}" 
+                                       class="ant-btn-primary inline-flex items-center gap-2 text-xs">
+                                        <span class="material-symbols-outlined text-[14px]">upload</span>
+                                        Upload Bukti
+                                    </a>
+                                @elseif($psn->status_pembayaran === 'paid')
+                                    <div class="flex items-center gap-2 text-green-600 text-xs font-bold">
+                                        <span class="material-symbols-outlined text-[16px]">verified</span>
+                                        Terkonfirmasi
+                                    </div>
+                                @elseif($psn->status_pembayaran === 'cancelled')
+                                    <div class="flex items-center gap-2 text-red-600 text-xs font-bold">
+                                        <span class="material-symbols-outlined text-[16px]">block</span>
+                                        Tidak Aktif
+                                    </div>
+                                @endif
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
-
         </div>
-    @endif
 
-</div>
+        {{-- PAGINATION (if exists) --}}
+        @if(method_exists($pemesanan, 'links'))
+            <div class="px-6 py-4 border-t border-ant-borderSplit">
+                {{ $pemesanan->links() }}
+            </div>
+        @endif
+    </div>
+
+    {{-- SUMMARY CARD --}}
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="ant-card p-6 text-center">
+            <span class="material-symbols-outlined text-ant-primary text-[32px] mb-3 block">pending_actions</span>
+            <div class="text-2xl font-bold text-ant-text">{{ $pemesanan->where('status_pembayaran', 'pending')->count() }}</div>
+            <div class="text-[11px] text-ant-textSecondary uppercase tracking-wider mt-1">Menunggu Pembayaran</div>
+        </div>
+
+        <div class="ant-card p-6 text-center">
+            <span class="material-symbols-outlined text-green-600 text-[32px] mb-3 block">task_alt</span>
+            <div class="text-2xl font-bold text-ant-text">{{ $pemesanan->where('status_pembayaran', 'paid')->count() }}</div>
+            <div class="text-[11px] text-ant-textSecondary uppercase tracking-wider mt-1">Sudah Lunas</div>
+        </div>
+
+        <div class="ant-card p-6 text-center">
+            <span class="material-symbols-outlined text-red-600 text-[32px] mb-3 block">cancel</span>
+            <div class="text-2xl font-bold text-ant-text">{{ $pemesanan->where('status_pembayaran', 'cancelled')->count() }}</div>
+            <div class="text-[11px] text-ant-textSecondary uppercase tracking-wider mt-1">Dibatalkan</div>
+        </div>
+    </div>
+@endif
 
 @endsection
+

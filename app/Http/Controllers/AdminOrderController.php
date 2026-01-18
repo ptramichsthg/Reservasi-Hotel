@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AdminOrderController extends Controller
 {
     /**
-     * 📑 Menampilkan semua data pemesanan
+     * Menampilkan semua data pemesanan
      */
     public function index()
     {
@@ -20,7 +20,7 @@ class AdminOrderController extends Controller
     }
 
     /**
-     * 🔍 Menampilkan detail pemesanan
+     * Menampilkan detail pemesanan
      */
     public function show($id)
     {
@@ -31,7 +31,7 @@ class AdminOrderController extends Controller
     }
 
     /**
-     * ✅ UPDATE STATUS RESERVASI (FIXED & FINAL)
+     * UPDATE STATUS RESERVASI (FIXED & FINAL)
      */
     public function updateStatus(Request $request, $id)
     {
@@ -51,7 +51,7 @@ class AdminOrderController extends Controller
     }
 
     /**
-     * 🗑️ Hapus pemesanan (opsional)
+     * Hapus pemesanan (opsional)
      */
     public function destroy($id)
     {
